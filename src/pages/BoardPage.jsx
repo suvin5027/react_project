@@ -20,11 +20,24 @@ function BoardPage() {
 	const titleRef = useRef(null);
 	const writerRef = useRef(null);
 
-	// TipTap 에디터
+	// TipTap 에디터 (글쓰기용)
 	const editor = useEditor({
 		extensions: [StarterKit],
 		content: '',
 	});
+
+	// TipTap 에디터 (수정 모달용)
+	const editEditor = useEditor({
+		extensions: [StarterKit],
+		content: '',
+	});
+
+	// 수정 모달 열릴 때 에디터에 기존 내용 세팅
+	useEffect(() => {
+		if(editingPost && editEditor) {
+			editEditor.commands.setContent(editingPost.content);
+		}
+	}, [editingPost]);
 
 
 	// 3. 로컬스토리지 저장
@@ -97,10 +110,21 @@ function BoardPage() {
 
 	// 7. 글 수정 저장
 	const handleUpdatePost = () => {
-		if(editingPost.title.trim() === '' || editingPost.content.trim() === '' || editingPost.writer.trim() === '') return;
+		const content = editEditor.getHTML();
+		const plainText = editEditor.getText();
 
-		setPostList(postList.map(post => post.id === editingPost.id ? editingPost : post)); // 수정된 게시글로 업데이트
-		setEditingPost(null); // 팝업 닫기
+		if(editingPost.title.trim() === '') { alert('제목을 입력해주세요.'); return; }
+		if(editingPost.writer.trim() === '') { alert('작성자를 입력해주세요.'); return; }
+		if(plainText.trim() === '') { alert('내용을 입력해주세요.'); return; }
+
+		try {
+			setPostList(postList.map(post => post.id === editingPost.id ? {...editingPost, content} : post));
+			setEditingPost(null);
+			alert('수정 되었습니다.');
+		} catch (error) {
+			console.error('게시글 수정 실패:', error);
+			alert('수정에 실패했습니다. 다시 시도해주세요.');
+		}
 	}
 
 	// 8. 글 검색
@@ -150,7 +174,7 @@ function BoardPage() {
 											<span className="post_list_date">{post.createdAt}</span>
 										</div>
 										<div className='post_btn_wrap'>
-											<button type="button" className="post_btn_edit" onClick={() => handleEditPost(post)}>수정</button>
+											<button type="button" className="post_btn_edit" onClick={() => openEditModal(post)}>수정</button>
 											<button type="button" className="post_btn_del" onClick={() => handleDeletePost(post.id)}>삭제</button>
 										</div>
 									</div>
@@ -184,8 +208,29 @@ function BoardPage() {
 
 			{/* 수정 팝업 */}
 			{editingPost && (
-				<div className="edit_modal">
-
+				<div className="modal_overlay">
+					<div className="modal_content">
+						<h2>게시글 수정</h2>
+						<div className="modal_input_wrap">
+							<input type="text" className="board_input" placeholder="제목" value={editingPost.title} onChange={(e) => setEditingPost({...editingPost, title: e.target.value})} />
+							<input type="text" className="board_input_writer" placeholder="작성자" value={editingPost.writer} onChange={(e) => setEditingPost({...editingPost, writer: e.target.value})} />
+						</div>
+						<div className="board_editor">
+							<div className="board_editor_toolbar">
+								<button type="button" onClick={() => editEditor.chain().focus().toggleBold().run()} className={editEditor?.isActive('bold') ? '_on' : ''}>B</button>
+								<button type="button" onClick={() => editEditor.chain().focus().toggleItalic().run()} className={editEditor?.isActive('italic') ? '_on' : ''}>I</button>
+								<button type="button" onClick={() => editEditor.chain().focus().toggleStrike().run()} className={editEditor?.isActive('strike') ? '_on' : ''}>S</button>
+								<span className="toolbar_divider" />
+								<button type="button" onClick={() => editEditor.chain().focus().toggleBulletList().run()} className={editEditor?.isActive('bulletList') ? '_on' : ''}>• 목록</button>
+								<button type="button" onClick={() => editEditor.chain().focus().toggleOrderedList().run()} className={editEditor?.isActive('orderedList') ? '_on' : ''}>1. 목록</button>
+							</div>
+							<EditorContent editor={editEditor} />
+						</div>
+						<div className="modal_btn">
+							<button type="button" onClick={handleUpdatePost}>수정</button>
+							<button type="button" onClick={() => { if(window.confirm('작업 중인 내용이 사라집니다. 취소하시겠습니까?')) setEditingPost(null); }}>취소</button>
+						</div>
+					</div>
 				</div>
 			)}
 		</div> // board_container end

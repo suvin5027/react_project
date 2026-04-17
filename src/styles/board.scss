@@ -26,6 +26,80 @@
 		}
 	}
 
+	// TipTap 에디터 공통
+	.board_editor {
+		border: 1px solid $color-border-input;
+		border-radius: $border-radius-base;
+		background: $color-bg-input;
+		color: $color-white;
+		overflow: hidden;
+		font-synthesis: auto;
+
+		.board_editor_toolbar {
+			display: flex;
+			align-items: center;
+			gap: 4px;
+			padding: 6px 10px;
+			border-bottom: 1px solid $color-border;
+
+			button {
+				padding: 2px 8px;
+				border: 1px solid $color-border;
+				border-radius: $border-radius-base;
+				background: none;
+				color: $color-white;
+				cursor: pointer;
+				font-size: 0.85rem;
+				font-style: normal;
+
+				&:hover, &._on {
+					background: $color-tab;
+					border-color: $color-tab;
+				}
+
+				&:nth-child(1) { font-weight: bold; }
+				&:nth-child(2) { font-style: italic; font-synthesis: auto; }
+				&:nth-child(3) { text-decoration: line-through; }
+			}
+
+			.toolbar_divider {
+				width: 1px;
+				height: 16px;
+				background: $color-border;
+				margin: 0 4px;
+			}
+		}
+
+		.tiptap,
+		.ProseMirror {
+			outline: none;
+			min-height: 100px;
+			padding: 10px;
+
+			p { margin: 0; }
+
+			strong { font-weight: bold; }
+			em { font-style: italic !important; }
+			s { text-decoration: line-through; }
+
+			ul, ol {
+				padding-left: 20px;
+				margin: 4px 0;
+			}
+		}
+	}
+
+	// 입력 공통
+	.board_input, .board_input_writer {
+		padding: 10px;
+		border: 1px solid $color-border-input;
+		border-radius: $border-radius-base;
+		font-family: inherit;
+		background: $color-bg-input;
+		color: $color-white;
+		width: 50%;
+	}
+
 	// 글쓰기 폼
 	.board_form {
 		display: flex;
@@ -56,69 +130,6 @@
 			border: 1px solid $color-border-input;
 			border-radius: $border-radius-base;
 			margin-bottom: 5px;
-		}
-
-		// TipTap 에디터
-		.board_editor {
-			border: 1px solid $color-border-input;
-			border-radius: $border-radius-base;
-			background: $color-bg-input;
-			color: $color-white;
-			overflow: hidden;
-			font-synthesis: auto;
-
-			.board_editor_toolbar {
-				display: flex;
-				align-items: center;
-				gap: 4px;
-				padding: 6px 10px;
-				border-bottom: 1px solid $color-border;
-
-				button {
-					padding: 2px 8px;
-					border: 1px solid $color-border;
-					border-radius: $border-radius-base;
-					background: none;
-					color: $color-white;
-					cursor: pointer;
-					font-size: 0.85rem;
-					font-style: normal;
-
-					&:hover, &._on {
-						background: $color-tab;
-						border-color: $color-tab;
-					}
-
-					&:nth-child(1) { font-weight: bold; }
-					&:nth-child(2) { font-style: italic; font-synthesis: auto; }
-					&:nth-child(3) { text-decoration: line-through; }
-				}
-
-				.toolbar_divider {
-					width: 1px;
-					height: 16px;
-					background: $color-border;
-					margin: 0 4px;
-				}
-			}
-
-			.tiptap,
-			.ProseMirror {
-				outline: none;
-				min-height: 100px;
-				padding: 10px;
-
-				p { margin: 0; }
-
-				strong { font-weight: bold; }
-				em { font-style: italic !important; }
-				s { text-decoration: line-through; }
-
-				ul, ol {
-					padding-left: 20px;
-					margin: 4px 0;
-				}
-			}
 		}
 
 		.board_submit_btn {
@@ -230,6 +241,70 @@
 		.post_writer_box, .post_list_date {
 			font-size: 0.8rem;
 			color: $color-text-muted;
+		}
+	}
+}
+
+// ============================================================
+// 수정 모달
+// ============================================================
+.modal_overlay {
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.6);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 100;
+
+	.modal_content {
+		background: #2a2a2a;
+		border-radius: $border-radius-base;
+		padding: 24px;
+		width: 540px;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+
+		h2 {
+			margin: 0;
+			font-size: 1.1rem;
+		}
+
+		.modal_input_wrap {
+			display: flex;
+			gap: 10px;
+
+			.board_input, .board_input_writer {
+				margin-bottom: 0;
+			}
+		}
+
+		.modal_btn {
+			display: flex;
+			justify-content: flex-end;
+			gap: 8px;
+
+			button {
+				padding: 8px 16px;
+				border-radius: $border-radius-base;
+				border: none;
+				cursor: pointer;
+				font-size: 0.9rem;
+				transition: .3s;
+
+				&:first-child {
+					background: $color-tab;
+					color: $color-white;
+					&:hover { background: darken($color-tab, 10%); }
+				}
+
+				&:last-child {
+					background: $color-border;
+					color: $color-white;
+					&:hover { background: darken($color-border, 10%); }
+				}
+			}
 		}
 	}
 }
