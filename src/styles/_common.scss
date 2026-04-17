@@ -4,6 +4,18 @@
 // 공통 스타일 — 전체 페이지에서 공유되는 기본 스타일
 // ============================================================
 
+.App{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+
+	main {
+		display: flex;
+		width: 100%;
+	}
+}
+
 input[type="checkbox"]:disabled {
 	cursor: not-allowed;
 	opacity: 0.6;

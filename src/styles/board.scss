@@ -5,13 +5,25 @@
 // 게시판 컨테이너
 // ============================================================
 .board_container {
-	max-width: 600px;
-	margin: 0 auto;
-	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding: 40px;
 
 	.board_title {
 		text-align: center;
 		margin-bottom: 20px;
+	}
+
+	// 검색, 글 목록 영역
+	.board_main{
+		display: flex;
+		width: 100%;
+		gap: 40px;
+
+		& > *{
+			flex: 1;
+		}
 	}
 
 	// 글쓰기 폼
@@ -46,6 +58,69 @@
 			margin-bottom: 5px;
 		}
 
+		// TipTap 에디터
+		.board_editor {
+			border: 1px solid $color-border-input;
+			border-radius: $border-radius-base;
+			background: $color-bg-input;
+			color: $color-white;
+			overflow: hidden;
+			font-synthesis: auto;
+
+			.board_editor_toolbar {
+				display: flex;
+				align-items: center;
+				gap: 4px;
+				padding: 6px 10px;
+				border-bottom: 1px solid $color-border;
+
+				button {
+					padding: 2px 8px;
+					border: 1px solid $color-border;
+					border-radius: $border-radius-base;
+					background: none;
+					color: $color-white;
+					cursor: pointer;
+					font-size: 0.85rem;
+					font-style: normal;
+
+					&:hover, &._on {
+						background: $color-tab;
+						border-color: $color-tab;
+					}
+
+					&:nth-child(1) { font-weight: bold; }
+					&:nth-child(2) { font-style: italic; font-synthesis: auto; }
+					&:nth-child(3) { text-decoration: line-through; }
+				}
+
+				.toolbar_divider {
+					width: 1px;
+					height: 16px;
+					background: $color-border;
+					margin: 0 4px;
+				}
+			}
+
+			.tiptap,
+			.ProseMirror {
+				outline: none;
+				min-height: 100px;
+				padding: 10px;
+
+				p { margin: 0; }
+
+				strong { font-weight: bold; }
+				em { font-style: italic !important; }
+				s { text-decoration: line-through; }
+
+				ul, ol {
+					padding-left: 20px;
+					margin: 4px 0;
+				}
+			}
+		}
+
 		.board_submit_btn {
 			background: $color-tab;
 			color: $color-white;
@@ -65,7 +140,9 @@
 // 게시글 목록
 // ============================================================
 .post_list {
+	max-height: 600px;
 	margin-top: 20px;
+	overflow-y: auto;
 
 	// 글 없을 때 빈 상태 메시지
 	.no_post {
@@ -96,20 +173,40 @@
 			color: $color-text-date;
 		}
 
-		// 삭제 버튼
-		.post_btn_del {
-			margin-left: 10px;
+		// post_btn 버튼 공통 스타일
+		button[class^="post_btn_"] {
 			padding: 2px 6px;
-			background: #ffeded;
-			color: #ff4d4f;
-			border: 1px solid #ffccc7;
 			border-radius: $border-radius-base;
+			border-width: 1px;
+			border-style: solid;
 			cursor: pointer;
 			font-size: $font-size-date;
+			transition: .3s;
+		}
+
+		// 삭제 버튼
+		.post_btn_del {
+			background: $color-btn-del-text;
+			color: $color-white;
+			border-color: $color-btn-del-text;
 
 			&:hover {
-				background: #ff4d4f;
-				color: $color-white;
+				background: $color-btn-del-bg;
+				color: $color-btn-del-text;
+				border-color: $color-btn-del-border;
+			}
+		}
+
+		// 수정 버튼
+		.post_btn_edit {
+			background: $color-btn-edit-text;
+			color: $color-white;
+			border-color: $color-btn-edit-text;
+
+			&:hover {
+				background: $color-btn-edit-bg;
+				color: $color-btn-edit-text;
+				border-color: $color-btn-edit-border;
 			}
 		}
 	}
@@ -117,7 +214,18 @@
 	.post_footer {
 		display: flex;
 		align-items: center;
+		justify-content: space-between;
 		gap: 10px;
+
+		.post_info, .post_btn_wrap{
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
+
+		.post_btn_wrap{
+			gap: 5px;
+		}
 
 		.post_writer_box, .post_list_date {
 			font-size: 0.8rem;
