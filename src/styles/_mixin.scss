@@ -1,0 +1,17 @@
+// 1줄 말줄임
+@mixin ellipse_1 {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	word-break: break-all;
+}
+
+// n줄 말줄임 (기본 2줄)
+@mixin ellipse_n($line: 2) {
+	display: -webkit-box;
+	-webkit-line-clamp: $line;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	word-break: break-all;
+	text-overflow: ellipsis;
+}

@@ -1,0 +1,127 @@
+@use 'variables' as *;
+@use 'mixin' as *;
+
+// ============================================================
+// 게시판 컨테이너
+// ============================================================
+.board_container {
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 20px;
+
+	.board_title {
+		text-align: center;
+		margin-bottom: 20px;
+	}
+
+	// 글쓰기 폼
+	.board_form {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		margin-bottom: 30px;
+
+		.board_input_wrap {
+			display: flex;
+			gap: 10px;
+		}
+
+		.board_input, .board_textarea, .board_input_writer {
+			padding: 10px;
+			border: 1px solid $color-border-input;
+			border-radius: $border-radius-base;
+			font-family: inherit;
+		}
+
+		.board_textarea {
+			height: 100px;
+			resize: none;
+		}
+
+		.board_input, .board_input_writer {
+			width: 50%;
+			padding: 10px;
+			border: 1px solid $color-border-input;
+			border-radius: $border-radius-base;
+			margin-bottom: 5px;
+		}
+
+		.board_submit_btn {
+			background: $color-tab;
+			color: $color-white;
+			border: none;
+			padding: 10px;
+			border-radius: $border-radius-base;
+			cursor: pointer;
+
+			&:hover {
+				background: darken($color-tab, 10%);
+			}
+		}
+	}
+}
+
+// ============================================================
+// 게시글 목록
+// ============================================================
+.post_list {
+	margin-top: 20px;
+
+	// 글 없을 때 빈 상태 메시지
+	.no_post {
+		text-align: center;
+		color: $color-text-date;
+	}
+
+	.post_item {
+		border-bottom: 1px solid $color-border;
+		padding: 15px 0;
+		position: relative;
+
+		.post_title {
+			font-size: 1.1rem;
+			margin-bottom: 5px;
+			@include ellipse_1; // 제목은 한 줄 말줄임
+		}
+
+		.post_content {
+			color: $color-border-input;
+			font-size: 0.95rem;
+			margin-bottom: 8px;
+			@include ellipse_n(2); // 내용은 2줄 말줄임
+		}
+
+		.post_date {
+			font-size: 0.8rem;
+			color: $color-text-date;
+		}
+
+		// 삭제 버튼
+		.post_btn_del {
+			margin-left: 10px;
+			padding: 2px 6px;
+			background: #ffeded;
+			color: #ff4d4f;
+			border: 1px solid #ffccc7;
+			border-radius: $border-radius-base;
+			cursor: pointer;
+			font-size: $font-size-date;
+
+			&:hover {
+				background: #ff4d4f;
+				color: $color-white;
+			}
+		}
+	}
+
+	.post_footer {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+
+		.post_writer_box, .post_list_date {
+			font-size: 0.8rem;
+			color: $color-text-muted;
+		}
+	}
+}

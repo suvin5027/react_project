@@ -15,6 +15,7 @@ dist-ssr
 # Local project management
 tickets/
 CLAUDE.md
+.claude/settings.local.json
 
 # Editor directories and files
 .vscode/*

@@ -1,0 +1,147 @@
+@use 'variables' as *;
+
+// ============================================================
+// 투두 컨테이너
+// ============================================================
+.todo_container {
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 20px;
+
+	h1 {
+		font-size: $font-size-title;
+		color: $color-primary;
+		margin-bottom: 30px;
+	}
+
+	.todo_list {
+		max-height: 570px;
+		overflow-y: auto;
+
+		li {
+			padding: 10px 0;
+			border-bottom: 1px solid $color-border;
+
+			&.done {
+				text-decoration: line-through;
+				color: $color-text-muted;
+
+				button {
+					text-decoration: none;
+				}
+			}
+		}
+	}
+
+	// 입력창 영역
+	.input_box {
+		margin-top: 20px;
+		display: flex;
+		gap: 10px;
+
+		form {
+			display: flex;
+			width: 100%;
+			gap: 10px;
+		}
+
+		input {
+			flex: 1;
+			padding: 8px;
+			border-radius: $border-radius-base;
+			border: 1px solid $color-border-input;
+			background: $color-bg-input;
+			color: $color-white;
+		}
+
+		button {
+			padding: 8px 16px;
+			background: $color-primary;
+			border: none;
+			border-radius: $border-radius-base;
+			color: $color-btn-primary-text;
+			font-weight: bold;
+			cursor: pointer;
+		}
+	}
+}
+
+// ============================================================
+// 탭 메뉴 (전체 / 할 일 / 완료)
+// ============================================================
+.todo_tabs {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin: 20px 0px;
+
+	button {
+		padding: 8px 16px;
+		border: 1px solid $color-tab;
+		background: $color-tab;
+		border-radius: $border-radius-pill;
+		cursor: pointer;
+		transition: 0.3s;
+
+		&._on, &:hover, &:focus {
+			border: 1px solid $color-tab;
+			background-color: $color-white;
+			color: $color-tab;
+			font-weight: bold;
+		}
+	}
+}
+
+// ============================================================
+// 통계 표시 (전체 / 완료 / 남은 할 일 개수)
+// ============================================================
+.todo_stats {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	p {
+		margin: 0;
+	}
+}
+
+// ============================================================
+// 할 일 목록 아이템
+// ============================================================
+.todo_list {
+	li {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 10px;
+
+		label {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			cursor: pointer;
+			flex-grow: 1;
+		}
+
+		&.done span {
+			text-decoration: line-through;
+			color: gray;
+		}
+
+		.done-toggle {
+			cursor: pointer;
+		}
+
+		// 수정/삭제 아이콘 버튼
+		.delete_btn, .edit_btn {
+			background: none;
+			border: none;
+			cursor: pointer;
+			font-size: $font-size-icon-btn;
+
+			&:hover {
+				transform: scale(1.2);
+			}
+		}
+	}
+}

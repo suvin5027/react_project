@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'; // 여기에 useState랑 useEffect를 추가!
-import '..//App.scss';
 
 function TodoPage() {
 	// 백엔드 없으니까 일단 가짜 데이터!
@@ -157,35 +156,35 @@ function TodoPage() {
 											});
 
 	return (
-		<div className="todo-container">
+		<div className="todo_container">
 			{/* 할 일 목록 통계 */}
 			<h1 className="title">할 일 목록📝</h1>
-			<div className='todo-stats'>
+			<div className='todo_stats'>
 				<p><span>전체:</span> {totalCount}개</p>
 				<p><span>완료:</span> {doneCount}개</p>
 				<p><span>남은 할 일:</span> {remainingCount}개</p>
 			</div>
 
 			{/* 할 일 추가 입력창 */}
-			<div className="input-box">
+			<div className="input_box">
 				<form onSubmit={(e) => {
 					e.preventDefault(); // 폼 제출 시 페이지 새로고침 방지
 					handleAddTodo(); // 엔터키로도 할 일 추가 가능하게!
 				}}>
 					<input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="새로운 할 일을 입력해!" />
-					<button className="add-btn">추가</button>
+					<button className="add_btn">추가</button>
 				</form>
 			</div>
 
 			{/* 탭 메뉴 */}
-			<div className='todo-tabs'>
+			<div className='todo_tabs'>
 				<button className={activeTab === 'ALL' ? '_on' : ''} onClick={() => setActiveTab('ALL')}>전체</button>
 				<button className={activeTab === 'TODO' ? '_on' : ''} onClick={() => setActiveTab('TODO')}>할 일</button>
 				<button className={activeTab === 'DONE' ? '_on' : ''} onClick={() => setActiveTab('DONE')}>완료</button>
 			</div>
 
 			{/* 할 일 목록 */}
-			<ul className="todo-list">
+			<ul className="todo_list">
 				{/* 필터링된 할 일 목록을 렌더링 */}
 				{filteredList.map((item) => {
 					if(!item) return null; // item이 null이나 undefined인 경우 렌더링하지 않음
@@ -197,11 +196,11 @@ function TodoPage() {
 							</label>
 
 							{/* 삭제 버튼 추가! 클릭하면 handleDeleteTodo 함수 실행되도록! */}
-							<button type='button' className='edit-btn' onClick={() => openEditModal(item)}>✏️</button>
-							<button type='button' className='delete-btn' onClick={() => handleDeleteTodo(item.id)}>❌</button>
+							<button type='button' className='edit_btn' onClick={() => openEditModal(item)}>✏️</button>
+							<button type='button' className='delete_btn' onClick={() => handleDeleteTodo(item.id)}>❌</button>
 
 							{/* 날짜 표시 추가! (item.createdAt이 있을 때만 보여주도록 안전하게 작성) */}
-							{item.createdAt && <span className='date-text'>{item.createdAt}</span>}
+							{item.createdAt && <span className='date_text'>{item.createdAt}</span>}
 						</li>
 					)}
 				)}
@@ -209,8 +208,8 @@ function TodoPage() {
 
 			{/* 수정 팝업(모달) - editingTodo가 있을 때만 렌더링 */}
 			{editingTodo && (
-				<div className='modal-overlay'>
-					<div className='modal-content'>
+				<div className='modal_overlay'>
+					<div className='modal_content'>
 						<h2>할 일 수정</h2>
 						{/* 팝업 안의 입력창 : 글자 입력 시 editingTodo 상태 업데이트 */}
 						<input type='text' value={editingTodo.text} onChange={(e) => setEditingTodo({...editingTodo, text: e.target.value})} />
@@ -219,9 +218,9 @@ function TodoPage() {
 							<input type='checkbox' checked={editingTodo.done} onChange={(e) => setEditingTodo({...editingTodo, done: e.target.checked})} />
 							완료 표시
 						</label>
-						<div className='modal-btn'>
+						<div className='modal_btn'>
 							<button type='button' onClick={handleUpdateTodo}>수정</button>
-							<button type='button'onClick={() => setEditingTodo(null)}>취소</button>
+							<button type='button' onClick={() => setEditingTodo(null)}>취소</button>
 						</div>
 					</div>
 				</div>

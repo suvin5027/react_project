@@ -1,0 +1,23 @@
+@use 'variables' as *;
+
+// ============================================================
+// 공통 스타일 — 전체 페이지에서 공유되는 기본 스타일
+// ============================================================
+
+input[type="checkbox"]:disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+// 날짜 텍스트
+.date_text {
+	font-size: $font-size-date;
+	color: $color-text-date;
+	margin-left: 8px;
+	white-space: nowrap; // 날짜가 줄바꿈되지 않도록
+}
+
+.button_group {
+	display: flex;
+	align-items: center;
+}
