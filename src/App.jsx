@@ -1,5 +1,5 @@
 // Created by psv
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import './App.scss';
 import TodoPage from './pages/TodoPage';
 import BoardPage from './pages/BoardPage';
@@ -11,8 +11,8 @@ function App() {
 			<div className="App">
 				{/* 네비게이션 — button 대신 Link로 URL 이동 */}
 				<nav className="nav_menu">
-					<Link to="/todo">할 일 목록</Link>
-					<Link to="/board">게시판</Link>
+					<NavLink to="/todo">할 일 목록</NavLink>
+					<NavLink to="/board">게시판</NavLink>
 				</nav>
 
 				{/* Routes: 현재 URL에 맞는 Route 하나만 렌더링 */}

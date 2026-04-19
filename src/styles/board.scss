@@ -1,5 +1,6 @@
 @use 'variables' as *;
 @use 'mixin' as *;
+@use "sass:color"; // 색상 함수 사용 위해 추가
 
 // ============================================================
 // 게시판 컨테이너
@@ -141,7 +142,7 @@
 			cursor: pointer;
 
 			&:hover {
-				background: darken($color-tab, 10%);
+				background: color.adjust($color-tab, $lightness: -10%);
 			}
 		}
 	}
@@ -296,13 +297,13 @@
 				&:first-child {
 					background: $color-tab;
 					color: $color-white;
-					&:hover { background: darken($color-tab, 10%); }
+					&:hover { background: color.adjust($color-tab, $lightness: -10%); }
 				}
 
 				&:last-child {
 					background: $color-border;
 					color: $color-white;
-					&:hover { background: darken($color-border, 10%); }
+					&:hover { background: color.adjust($color-border, $lightness: -10%); }
 				}
 			}
 		}
