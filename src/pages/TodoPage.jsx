@@ -158,7 +158,7 @@ function TodoPage() {
 	return (
 		<div className="todo_container">
 			{/* 할 일 목록 통계 */}
-			<h1 className="title">할 일 목록📝</h1>
+			<h1 className="title">📌할 일 목록</h1>
 			<div className='todo_stats'>
 				<p><span>전체:</span> {totalCount}개</p>
 				<p><span>완료:</span> {doneCount}개</p>
@@ -171,7 +171,7 @@ function TodoPage() {
 					e.preventDefault(); // 폼 제출 시 페이지 새로고침 방지
 					handleAddTodo(); // 엔터키로도 할 일 추가 가능하게!
 				}}>
-					<input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="새로운 할 일을 입력해!" />
+					<input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder="새로운 할 일을 입력하세요." />
 					<button className="add_btn">추가</button>
 				</form>
 			</div>

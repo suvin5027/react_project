@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import Placeholder from '@tiptap/extension-placeholder';
 
 function BoardPage() {
 
@@ -22,13 +23,13 @@ function BoardPage() {
 
 	// TipTap 에디터 (글쓰기용)
 	const editor = useEditor({
-		extensions: [StarterKit],
+		extensions: [StarterKit, Placeholder.configure({ placeholder: '내용을 입력하세요.' })],
 		content: '',
 	});
 
 	// TipTap 에디터 (수정 모달용)
 	const editEditor = useEditor({
-		extensions: [StarterKit],
+		extensions: [StarterKit, Placeholder.configure({ placeholder: '내용을 입력하세요.' })],
 		content: '',
 	});
 
@@ -148,7 +149,7 @@ function BoardPage() {
 	// UI반환 부분
 	return (
 		<div className="board_container">
-			<h1 className="board_title">게시판</h1>
+			<h1 className="board_title">📝게시판</h1>
 
 			{/* 검색, 글 목록 */}
 			<div className="board_main">
@@ -217,6 +218,7 @@ function BoardPage() {
 						</div>
 						<div className="board_editor">
 							<div className="board_editor_toolbar">
+								{/* 에디터 툴바 */}
 								<button type="button" onClick={() => editEditor.chain().focus().toggleBold().run()} className={editEditor?.isActive('bold') ? '_on' : ''}>B</button>
 								<button type="button" onClick={() => editEditor.chain().focus().toggleItalic().run()} className={editEditor?.isActive('italic') ? '_on' : ''}>I</button>
 								<button type="button" onClick={() => editEditor.chain().focus().toggleStrike().run()} className={editEditor?.isActive('strike') ? '_on' : ''}>S</button>
