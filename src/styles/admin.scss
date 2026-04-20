@@ -1,0 +1,54 @@
+@use 'variables' as *;
+
+// ============================================================
+// 어드민 페이지
+// ============================================================
+.admin_container {
+	width: 100%;
+	padding: 40px;
+
+	.admin_title {
+		font-size: $font-size-title;
+		color: $color-primary;
+		margin-bottom: 24px;
+	}
+
+	.admin_table {
+		width: 100%;
+		border-collapse: collapse;
+		font-size: 0.95rem;
+
+		th, td {
+			padding: 12px 16px;
+			border-bottom: 1px solid $color-border;
+			text-align: left;
+		}
+
+		th {
+			color: $color-text-muted;
+			font-weight: bold;
+		}
+
+		.admin_empty {
+			text-align: center;
+			color: $color-text-muted;
+			padding: 24px;
+		}
+
+		.admin_btn_del {
+			padding: 3px 10px;
+			background: $color-btn-del-text;
+			color: $color-white;
+			border: none;
+			border-radius: $border-radius-base;
+			cursor: pointer;
+			font-size: $font-size-date;
+			transition: 0.2s;
+
+			&:hover {
+				background: $color-btn-del-bg;
+				color: $color-btn-del-text;
+			}
+		}
+	}
+}

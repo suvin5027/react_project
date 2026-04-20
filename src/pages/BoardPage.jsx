@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
+import { useAuth } from '../context/AuthContext';
 
 function BoardPage() {
+	const { currentUser } = useAuth();
+	const navigate = useNavigate();
 
 	// 1. 게시글 목록 상태(초기값은 로컬스토리지에서 가져오기)
 	const [postList, setPostList] = useState(() =>  {
@@ -13,13 +17,12 @@ function BoardPage() {
 
 	// 2. 입력값 상태 (제목과 내용)
 	const [title, setTitle] = useState('');
-	// const [content, setContent] = useState('');
-	const [writer, setWriter] = useState('');
+	const [category, setCategory] = useState('일반');
 	const [searchKeyword, setSearchKeyword] = useState('');
+	const [searchType, setSearchType] = useState('all'); // 'all' | 'title_content' | 'writer'
 	const [editingPost, setEditingPost] = useState(null); // 수정 중인 게시글 정보(null이면 팝업 닫힘)
 
 	const titleRef = useRef(null);
-	const writerRef = useRef(null);
 
 	// TipTap 에디터 (글쓰기용)
 	const editor = useEditor({
@@ -60,11 +63,6 @@ function BoardPage() {
 			titleRef.current.focus();
 			return;
 		}
-		if(writer.trim() === '') {
-			alert('작성자를 입력해주세요.');
-			writerRef.current.focus();
-			return;
-		}
 		if(plainText.trim() === '') {
 			alert('내용을 입력해주세요.');
 			editor.commands.focus();
@@ -79,16 +77,16 @@ function BoardPage() {
 			id: nextId,
 			title: title,
 			content: content,
-			writer: writer,
+			writer: currentUser.username,
+			category: category,
 			createdAt: dateString,
 		};
 
 		try {
 			setPostList([newPost, ...postList]); // 최신글이 위로 오도록
-			setTitle(''); // 입력창 초기화
-			// setContent(''); // 입력창 초기화
-			editor.commands.clearContent(); // 에디터 초기화
-			setWriter(''); // 입력창 초기화
+			setTitle('');
+			setCategory('일반');
+			editor.commands.clearContent();
 			alert('등록 되었습니다.');
 		} catch (error) {
 			console.error('게시글 등록 실패:', error);
@@ -131,19 +129,11 @@ function BoardPage() {
 	// 8. 글 검색
 	const filteredPosts = postList.filter(post => {
 		const keyword = searchKeyword.toLowerCase();
-		// HTML 태그 제거 후 plain text로 검색
 		const plainContent = post.content.replace(/<[^>]*>/g, '');
-		return (
-			post.title.toLowerCase().includes(keyword) ||
-			plainContent.toLowerCase().includes(keyword) ||
-			post.writer.toLowerCase().includes(keyword)
-		);
+		if (searchType === 'writer') return post.writer.toLowerCase().includes(keyword);
+		if (searchType === 'title_content') return post.title.toLowerCase().includes(keyword) || plainContent.toLowerCase().includes(keyword);
+		return post.title.toLowerCase().includes(keyword) || plainContent.toLowerCase().includes(keyword) || post.writer.toLowerCase().includes(keyword);
 	});
-	// const filteredPosts = postList.filter(post =>
-	// 	post.title.toLowerCase().includes(searchKeyword.toLowerCase()) ||
-	// 	post.content.toLowerCase().includes(searchKeyword.toLowerCase()) ||
-	// 	post.writer.toLowerCase().includes(searchKeyword.toLowerCase())
-	// );
 
 
 	// UI반환 부분
@@ -156,7 +146,12 @@ function BoardPage() {
 				<section className='board_section'>
 					{/* 검색 영역 */}
 					<div className="board_search">
-						<input type="text" className="board_input" placeholder="검색어를 입력하세요." value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)} />
+						<select className="board_search_select" value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+							<option value="all">전체</option>
+							<option value="title_content">제목+내용</option>
+							<option value="writer">작성자</option>
+						</select>
+						<input type="text" className="board_search_input" placeholder="검색어를 입력하세요." value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)} />
 					</div>
 
 					{/* 글 목록 영역 */}
@@ -166,7 +161,7 @@ function BoardPage() {
 						) : (
 							filteredPosts.map((post) => (
 								<li className="post_item" key={post.id}>
-									<h3 className="post_title">{post.title}</h3>
+									<h3 className="post_title">{post.category === '공지사항' && '📌 '}{post.title}</h3>
 									{/* <p className="post_content">{post.content}</p> */}
 									<div className="post_content" dangerouslySetInnerHTML={{ __html: post.content }} />
 									<div className='post_footer'>
@@ -174,10 +169,13 @@ function BoardPage() {
 											<div className="post_writer_box">작성자: {post.writer}</div>
 											<span className="post_list_date">{post.createdAt}</span>
 										</div>
-										<div className='post_btn_wrap'>
-											<button type="button" className="post_btn_edit" onClick={() => openEditModal(post)}>수정</button>
-											<button type="button" className="post_btn_del" onClick={() => handleDeletePost(post.id)}>삭제</button>
-										</div>
+										{/* 본인 글이거나 admin이면 수정/삭제 노출 */}
+										{currentUser && (currentUser.username === post.writer || currentUser.username === 'admin') && (
+											<div className='post_btn_wrap'>
+												<button type="button" className="post_btn_edit" onClick={() => openEditModal(post)}>수정</button>
+												<button type="button" className="post_btn_del" onClick={() => handleDeletePost(post.id)}>삭제</button>
+											</div>
+										)}
 									</div>
 								</li>
 							))
@@ -185,11 +183,22 @@ function BoardPage() {
 					</ul>
 				</section>
 
-				{/* 글쓰기 영역 */}
+				{/* 글쓰기 영역 — 로그인한 사용자만 */}
+				{!currentUser ? (
+					<div className="board_login_required">
+						<p>글을 작성하려면 로그인이 필요합니다.</p>
+						<button type="button" onClick={() => navigate('/login')}>로그인하러 가기</button>
+					</div>
+				) : (
 				<form className="board_form" onSubmit={handleAddPost}>
 					<div className='board_input_wrap'>
+						<select className='board_category_select' value={category} onChange={(e) => setCategory(e.target.value)}>
+							{currentUser.username === 'admin' && <option value="공지사항">공지사항</option>}
+							<option value="일반">일반</option>
+							<option value="질문">질문</option>
+							<option value="자유">자유</option>
+						</select>
 						<input ref={titleRef} type='text' className='board_input' placeholder='제목을 입력하세요.' value={title} onChange={(e) => setTitle(e.target.value)} />
-						<input ref={writerRef} type='text' className='board_input_writer' placeholder='작성자를 입력하세요.' value={writer} onChange={(e) => setWriter(e.target.value)} />
 					</div>
 					{/* <textarea className='board_textarea' rows='5' placeholder='내용을 입력하세요.' value={content} onChange={(e) => setContent(e.target.value)}></textarea> */}
 					<div className='board_editor'>
@@ -205,6 +214,7 @@ function BoardPage() {
 					</div>
 					<button type="submit" className="board_submit_btn">등록</button>
 				</form>
+				)}
 			</div>
 
 			{/* 수정 팝업 */}
@@ -214,7 +224,7 @@ function BoardPage() {
 						<h2>게시글 수정</h2>
 						<div className="modal_input_wrap">
 							<input type="text" className="board_input" placeholder="제목" value={editingPost.title} onChange={(e) => setEditingPost({...editingPost, title: e.target.value})} />
-							<input type="text" className="board_input_writer" placeholder="작성자" value={editingPost.writer} onChange={(e) => setEditingPost({...editingPost, writer: e.target.value})} />
+							<span className="modal_writer">{editingPost.writer}</span>
 						</div>
 						<div className="board_editor">
 							<div className="board_editor_toolbar">

@@ -109,7 +109,33 @@
 		font-family: inherit;
 		background: $color-bg-input;
 		color: $color-white;
-		width: 50%;
+	}
+
+	// 검색창
+	.board_search {
+		display: flex;
+		gap: 6px;
+
+		.board_search_select {
+			padding: 10px 8px;
+			border: 1px solid $color-border-input;
+			border-radius: $border-radius-base;
+			background: $color-bg-input;
+			color: $color-white;
+			font-family: inherit;
+			cursor: pointer;
+			white-space: nowrap;
+		}
+
+		.board_search_input {
+			flex: 1;
+			padding: 10px;
+			border: 1px solid $color-border-input;
+			border-radius: $border-radius-base;
+			font-family: inherit;
+			background: $color-bg-input;
+			color: $color-white;
+		}
 	}
 
 	// 글쓰기 폼
@@ -117,7 +143,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
-		margin-bottom: 30px;
 
 		.board_input_wrap {
 			display: flex;
@@ -137,11 +162,21 @@
 		}
 
 		.board_input, .board_input_writer {
-			width: 50%;
-			padding: 10px;
+			width: 100%;
 			border: 1px solid $color-border-input;
 			border-radius: $border-radius-base;
-			margin-bottom: 5px;
+			padding: 10px;
+		}
+
+		.board_category_select {
+			padding: 10px 8px;
+			border: 1px solid $color-border-input;
+			border-radius: $border-radius-base;
+			background: $color-bg-input;
+			color: $color-white;
+			font-family: inherit;
+			cursor: pointer;
+			white-space: nowrap;
 		}
 
 		.board_submit_btn {
@@ -154,6 +189,31 @@
 
 			&:hover {
 				background: color.adjust($color-tab, $lightness: -10%);
+			}
+		}
+	}
+
+	// 비로그인 안내
+	.board_login_required {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 14px;
+		flex: 1;
+		color: $color-text-muted;
+
+		button {
+			padding: 8px 20px;
+			background: $color-tab;
+			color: $color-white;
+			border: none;
+			border-radius: $border-radius-base;
+			cursor: pointer;
+			transition: 0.2s;
+
+			&:hover {
+				opacity: 0.85;
 			}
 		}
 	}
@@ -285,10 +345,13 @@
 
 		.modal_input_wrap {
 			display: flex;
+			align-items: center;
 			gap: 10px;
 
-			.board_input, .board_input_writer {
-				margin-bottom: 0;
+			.modal_writer {
+				color: $color-text-muted;
+				font-size: 0.9rem;
+				white-space: nowrap;
 			}
 		}
 
