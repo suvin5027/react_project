@@ -4,6 +4,7 @@
 // ============================================================
 
 @use './styles/common';     // 전체 공통 스타일
+@use './styles/button';     // 공통 버튼 스타일
 @use './styles/main';       // 메인 페이지 스타일
 @use './styles/todo';       // 투두 페이지 스타일
 @use './styles/board';      // 게시판 페이지 스타일

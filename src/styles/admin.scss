@@ -35,20 +35,6 @@
 			padding: 24px;
 		}
 
-		.admin_btn_del {
-			padding: 3px 10px;
-			background: $color-btn-del-text;
-			color: $color-white;
-			border: none;
-			border-radius: $border-radius-base;
-			cursor: pointer;
-			font-size: $font-size-date;
-			transition: 0.2s;
 
-			&:hover {
-				background: $color-btn-del-bg;
-				color: $color-btn-del-text;
-			}
-		}
 	}
 }

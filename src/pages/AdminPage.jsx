@@ -41,7 +41,7 @@ function AdminPage() {
 								<td>{user.username}</td>
 								<td>{user.createdAt ?? '-'}</td>
 								<td>
-									<button type="button" className="admin_btn_del" onClick={() => handleDelete(user.id)}>삭제</button>
+									<button type="button" className="btn_del" onClick={() => handleDelete(user.id)}>삭제</button>
 								</td>
 							</tr>
 						))

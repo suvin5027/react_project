@@ -1,0 +1,94 @@
+@use 'variables' as *;
+@use "sass:color";
+
+// ============================================================
+// 버튼 공통 스타일
+// ============================================================
+
+// 버튼 묶음
+.btn_wrap {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+// 소형 액션 버튼 공통 (btn_detail, btn_edit, btn_del)
+.btn_detail, .btn_edit, .btn_del {
+	padding: 2px 6px;
+	border-radius: $border-radius-base;
+	border-width: 1px;
+	border-style: solid;
+	cursor: pointer;
+	font-size: $font-size-date;
+	transition: .3s;
+}
+
+.btn_detail {
+	background: none;
+	color: $color-text-muted;
+	border-color: $color-border;
+
+	&:hover { color: $color-white; border-color: $color-white; }
+}
+
+.btn_edit {
+	background: $color-btn-edit-text;
+	color: $color-white;
+	border-color: $color-btn-edit-text;
+
+	&:hover {
+		background: $color-btn-edit-bg;
+		color: $color-btn-edit-text;
+		border-color: $color-btn-edit-border;
+	}
+}
+
+.btn_del {
+	background: $color-btn-del-text;
+	color: $color-white;
+	border-color: $color-btn-del-text;
+
+	&:hover {
+		background: $color-btn-del-bg;
+		color: $color-btn-del-text;
+		border-color: $color-btn-del-border;
+	}
+}
+
+// 대형 폼 버튼
+.btn_submit {
+	padding: 10px 20px;
+	background: $color-tab;
+	color: $color-white;
+	border: none;
+	border-radius: $border-radius-base;
+	cursor: pointer;
+	transition: 0.2s;
+
+	&:hover { background: color.adjust($color-tab, $lightness: -10%); }
+}
+
+.btn_cancel {
+	padding: 10px 16px;
+	background: $color-border;
+	color: $color-white;
+	border: none;
+	border-radius: $border-radius-base;
+	cursor: pointer;
+	transition: 0.2s;
+
+	&:hover { opacity: 0.85; }
+}
+
+.btn_write {
+	padding: 10px 16px;
+	background: $color-tab;
+	color: $color-white;
+	border: none;
+	border-radius: $border-radius-base;
+	cursor: pointer;
+	white-space: nowrap;
+	transition: 0.2s;
+
+	&:hover { opacity: 0.85; }
+}

@@ -1,9 +1,118 @@
 @use 'variables' as *;
 @use 'mixin' as *;
-@use "sass:color"; // 색상 함수 사용 위해 추가
+@use "sass:color";
 
 // ============================================================
-// 게시판 컨테이너
+// 공용 입력 요소 (목록/글쓰기/수정 페이지 공통)
+// ============================================================
+
+.board_input, .board_input_writer {
+	padding: 10px;
+	border: 1px solid $color-border-input;
+	border-radius: $border-radius-base;
+	font-family: inherit;
+	background: $color-bg-input;
+	color: $color-white;
+	width: 100%;
+}
+
+.board_input_wrap {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.board_category_select {
+	padding: 10px 8px;
+	border: 1px solid $color-border-input;
+	border-radius: $border-radius-base;
+	background: $color-bg-input;
+	color: $color-white;
+	font-family: inherit;
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.modal_writer {
+	color: $color-text-muted;
+	font-size: 0.9rem;
+	white-space: nowrap;
+}
+
+// TipTap 에디터 공통
+.board_editor {
+	border: 1px solid $color-border-input;
+	border-radius: $border-radius-base;
+	background: $color-bg-input;
+	color: $color-white;
+	overflow: hidden;
+	font-synthesis: auto;
+
+	.board_editor_toolbar {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		padding: 6px 10px;
+		border-bottom: 1px solid $color-border;
+
+		button {
+			padding: 2px 8px;
+			border: 1px solid $color-border;
+			border-radius: $border-radius-base;
+			background: none;
+			color: $color-white;
+			cursor: pointer;
+			font-size: 0.85rem;
+			font-style: normal;
+
+			&:hover, &._on {
+				background: $color-tab;
+				border-color: $color-tab;
+			}
+
+			&:nth-child(1) { font-weight: bold; }
+			&:nth-child(2) { font-style: italic; font-synthesis: auto; }
+			&:nth-child(3) { text-decoration: line-through; }
+		}
+
+		.toolbar_divider {
+			width: 1px;
+			height: 16px;
+			background: $color-border;
+			margin: 0 4px;
+		}
+	}
+
+	.tiptap,
+	.ProseMirror {
+		outline: none;
+		min-height: 100px;
+		padding: 10px;
+
+		p { margin: 0; }
+
+		// placeholder
+		p.is-editor-empty:first-child::before {
+			content: attr(data-placeholder);
+			color: $color-text-muted;
+			pointer-events: none;
+			float: left;
+			height: 0;
+		}
+
+		strong { font-weight: bold; }
+		em { font-style: italic !important; }
+		s { text-decoration: line-through; }
+
+		ul, ol {
+			padding-left: 20px;
+			margin: 4px 0;
+		}
+	}
+}
+
+// ============================================================
+// 게시판 목록 컨테이너
 // ============================================================
 .board_container {
 	display: flex;
@@ -12,184 +121,57 @@
 	padding: 20px;
 
 	.board_title {
-		margin-bottom: 30px;
+		margin-bottom: 20px;
 		font-size: $font-size-title;
 		color: $color-primary;
 		text-align: center;
 	}
 
-	// 검색, 글 목록 영역
-	.board_main{
+	// 검색 + 글쓰기 버튼 상단 영역
+	.board_top {
 		display: flex;
-		width: 100%;
-		gap: 40px;
-
-		& > *{
-			flex: 1;
-		}
-	}
-
-	// TipTap 에디터 공통
-	.board_editor {
-		border: 1px solid $color-border-input;
-		border-radius: $border-radius-base;
-		background: $color-bg-input;
-		color: $color-white;
-		overflow: hidden;
-		font-synthesis: auto;
-
-		.board_editor_toolbar {
-			display: flex;
-			align-items: center;
-			gap: 4px;
-			padding: 6px 10px;
-			border-bottom: 1px solid $color-border;
-
-			button {
-				padding: 2px 8px;
-				border: 1px solid $color-border;
-				border-radius: $border-radius-base;
-				background: none;
-				color: $color-white;
-				cursor: pointer;
-				font-size: 0.85rem;
-				font-style: normal;
-
-				&:hover, &._on {
-					background: $color-tab;
-					border-color: $color-tab;
-				}
-
-				&:nth-child(1) { font-weight: bold; }
-				&:nth-child(2) { font-style: italic; font-synthesis: auto; }
-				&:nth-child(3) { text-decoration: line-through; }
-			}
-
-			.toolbar_divider {
-				width: 1px;
-				height: 16px;
-				background: $color-border;
-				margin: 0 4px;
-			}
-		}
-
-		.tiptap,
-		.ProseMirror {
-			outline: none;
-			min-height: 100px;
-			padding: 10px;
-
-			p { margin: 0; }
-
-			// placeholder
-			p.is-editor-empty:first-child::before {
-				content: attr(data-placeholder);
-				color: $color-text-muted;
-				pointer-events: none;
-				float: left;
-				height: 0;
-			}
-
-			strong { font-weight: bold; }
-			em { font-style: italic !important; }
-			s { text-decoration: line-through; }
-
-			ul, ol {
-				padding-left: 20px;
-				margin: 4px 0;
-			}
-		}
-	}
-
-	// 입력 공통
-	.board_input, .board_input_writer {
-		padding: 10px;
-		border: 1px solid $color-border-input;
-		border-radius: $border-radius-base;
-		font-family: inherit;
-		background: $color-bg-input;
-		color: $color-white;
-	}
-
-	// 검색창
-	.board_search {
-		display: flex;
-		gap: 6px;
-
-		.board_search_select {
-			padding: 10px 8px;
-			border: 1px solid $color-border-input;
-			border-radius: $border-radius-base;
-			background: $color-bg-input;
-			color: $color-white;
-			font-family: inherit;
-			cursor: pointer;
-			white-space: nowrap;
-		}
-
-		.board_search_input {
-			flex: 1;
-			padding: 10px;
-			border: 1px solid $color-border-input;
-			border-radius: $border-radius-base;
-			font-family: inherit;
-			background: $color-bg-input;
-			color: $color-white;
-		}
-	}
-
-	// 글쓰기 폼
-	.board_form {
-		display: flex;
-		flex-direction: column;
+		align-items: center;
 		gap: 10px;
+		margin-bottom: 10px;
 
-		.board_input_wrap {
+		.board_search {
+			flex: 1;
 			display: flex;
-			gap: 10px;
+			gap: 6px;
+
+			.board_search_select {
+				padding: 8px;
+				border: 1px solid $color-border-input;
+				border-radius: $border-radius-base;
+				background: $color-bg-input;
+				color: $color-white;
+				font-family: inherit;
+				cursor: pointer;
+				white-space: nowrap;
+			}
+
+			.board_search_input {
+				flex: 1;
+				padding: 8px 10px;
+				border: 1px solid $color-border-input;
+				border-radius: $border-radius-base;
+				font-family: inherit;
+				background: $color-bg-input;
+				color: $color-white;
+			}
 		}
 
-		.board_input, .board_textarea, .board_input_writer {
-			padding: 10px;
-			border: 1px solid $color-border-input;
-			border-radius: $border-radius-base;
-			font-family: inherit;
-		}
-
-		.board_textarea {
-			height: 100px;
-			resize: none;
-		}
-
-		.board_input, .board_input_writer {
-			width: 100%;
-			border: 1px solid $color-border-input;
-			border-radius: $border-radius-base;
-			padding: 10px;
-		}
-
-		.board_category_select {
-			padding: 10px 8px;
-			border: 1px solid $color-border-input;
-			border-radius: $border-radius-base;
-			background: $color-bg-input;
-			color: $color-white;
-			font-family: inherit;
-			cursor: pointer;
-			white-space: nowrap;
-		}
-
-		.board_submit_btn {
+		.board_write_btn {
+			padding: 10px 16px;
 			background: $color-tab;
 			color: $color-white;
 			border: none;
-			padding: 10px;
 			border-radius: $border-radius-base;
 			cursor: pointer;
+			white-space: nowrap;
+			transition: 0.2s;
 
-			&:hover {
-				background: color.adjust($color-tab, $lightness: -10%);
-			}
+			&:hover { opacity: 0.85; }
 		}
 	}
 
@@ -200,7 +182,7 @@
 		align-items: center;
 		justify-content: center;
 		gap: 14px;
-		flex: 1;
+		padding: 40px;
 		color: $color-text-muted;
 
 		button {
@@ -212,9 +194,7 @@
 			cursor: pointer;
 			transition: 0.2s;
 
-			&:hover {
-				opacity: 0.85;
-			}
+			&:hover { opacity: 0.85; }
 		}
 	}
 }
@@ -224,74 +204,32 @@
 // ============================================================
 .post_list {
 	max-height: 600px;
-	margin-top: 20px;
+	margin-top: 10px;
 	overflow-y: auto;
-
-	// 글 없을 때 빈 상태 메시지
-	.no_post {
-		text-align: center;
-		color: $color-text-date;
-	}
 
 	.post_item {
 		border-bottom: 1px solid $color-border;
 		padding: 15px 0;
-		position: relative;
 
 		.post_title {
 			font-size: 1.1rem;
 			margin-bottom: 5px;
-			@include ellipse_1; // 제목은 한 줄 말줄임
+			@include ellipse_1;
 		}
 
 		.post_content {
 			color: $color-border-input;
 			font-size: 0.95rem;
 			margin-bottom: 8px;
-			@include ellipse_n(2); // 내용은 2줄 말줄임
+			@include ellipse_n(2);
 		}
 
-		.post_date {
-			font-size: 0.8rem;
-			color: $color-text-date;
-		}
+	}
 
-		// post_btn 버튼 공통 스타일
-		button[class^="post_btn_"] {
-			padding: 2px 6px;
-			border-radius: $border-radius-base;
-			border-width: 1px;
-			border-style: solid;
-			cursor: pointer;
-			font-size: $font-size-date;
-			transition: .3s;
-		}
-
-		// 삭제 버튼
-		.post_btn_del {
-			background: $color-btn-del-text;
-			color: $color-white;
-			border-color: $color-btn-del-text;
-
-			&:hover {
-				background: $color-btn-del-bg;
-				color: $color-btn-del-text;
-				border-color: $color-btn-del-border;
-			}
-		}
-
-		// 수정 버튼
-		.post_btn_edit {
-			background: $color-btn-edit-text;
-			color: $color-white;
-			border-color: $color-btn-edit-text;
-
-			&:hover {
-				background: $color-btn-edit-bg;
-				color: $color-btn-edit-text;
-				border-color: $color-btn-edit-border;
-			}
-		}
+	.post_list_empty {
+		text-align: center;
+		color: $color-text-muted;
+		padding: 20px 0;
 	}
 
 	.post_footer {
@@ -300,14 +238,10 @@
 		justify-content: space-between;
 		gap: 10px;
 
-		.post_info, .post_btn_wrap{
+		.post_info {
 			display: flex;
 			align-items: center;
 			gap: 10px;
-		}
-
-		.post_btn_wrap{
-			gap: 5px;
 		}
 
 		.post_writer_box, .post_list_date {
@@ -318,68 +252,94 @@
 }
 
 // ============================================================
-// 수정 모달
+// 글쓰기 / 수정 페이지
 // ============================================================
-.modal_overlay {
-	position: fixed;
-	inset: 0;
-	background: rgba(0, 0, 0, 0.6);
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	z-index: 100;
+.board_form_page {
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 40px 20px;
 
-	.modal_content {
-		background: #2a2a2a;
-		border-radius: $border-radius-base;
-		padding: 24px;
-		width: 540px;
+	.board_form_title {
+		font-size: 1.3rem;
+		margin: 0 0 16px;
+	}
+
+	form {
 		display: flex;
 		flex-direction: column;
-		gap: 12px;
+		gap: 10px;
+	}
 
-		h2 {
-			margin: 0;
-			font-size: 1.1rem;
+	.board_form_btn_wrap {
+		display: flex;
+		justify-content: flex-end;
+		gap: 8px;
+	}
+}
+
+// ============================================================
+// 상세 페이지
+// ============================================================
+.board_detail_container {
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 40px 20px;
+
+	.board_detail_header {
+		border-bottom: 1px solid $color-border;
+		padding-bottom: 16px;
+		margin-bottom: 24px;
+
+		.board_detail_category {
+			font-size: 0.8rem;
+			color: $color-tab;
+			border: 1px solid $color-tab;
+			border-radius: $border-radius-pill;
+			padding: 2px 10px;
 		}
 
-		.modal_input_wrap {
+		.board_detail_title {
+			margin: 12px 0 8px;
+			font-size: 1.4rem;
+		}
+
+		.board_detail_meta {
 			display: flex;
-			align-items: center;
-			gap: 10px;
-
-			.modal_writer {
-				color: $color-text-muted;
-				font-size: 0.9rem;
-				white-space: nowrap;
-			}
+			gap: 12px;
+			font-size: 0.85rem;
+			color: $color-text-muted;
 		}
+	}
 
-		.modal_btn {
-			display: flex;
-			justify-content: flex-end;
-			gap: 8px;
+	.board_detail_content {
+		min-height: 200px;
+		line-height: 1.7;
+		margin-bottom: 32px;
 
-			button {
-				padding: 8px 16px;
-				border-radius: $border-radius-base;
-				border: none;
-				cursor: pointer;
-				font-size: 0.9rem;
-				transition: .3s;
+		p { margin: 0; }
+		ul, ol { padding-left: 20px; margin: 4px 0; }
+	}
 
-				&:first-child {
-					background: $color-tab;
-					color: $color-white;
-					&:hover { background: color.adjust($color-tab, $lightness: -10%); }
-				}
+	.board_detail_footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 
-				&:last-child {
-					background: $color-border;
-					color: $color-white;
-					&:hover { background: color.adjust($color-border, $lightness: -10%); }
-				}
-			}
+		// 상세 페이지 수정/삭제 버튼 크기 고정
+		.btn_edit, .btn_del {
+			width: 52px;
+			height: 36px;
+			padding: 0;
+			border-width: 0;
+			border-style: none;
+			font-size: 12px;
 		}
+	}
+
+	.board_detail_not_found {
+		color: $color-text-muted;
+		margin-bottom: 16px;
 	}
 }

@@ -6,6 +6,9 @@ import TodoPage from './pages/TodoPage';
 import BoardPage from './pages/BoardPage';
 import LoginPage from './pages/LoginPage';
 import AdminPage from './pages/AdminPage';
+import BoardWritePage from './pages/BoardWritePage';
+import BoardEditPage from './pages/BoardEditPage';
+import BoardDetailPage from './pages/BoardDetailPage';
 
 function NavBar() {
 	const { currentUser, logout } = useAuth();
@@ -40,6 +43,9 @@ function App() {
 							<Route path="/board" element={<BoardPage />} />
 							<Route path="/login" element={<LoginPage />} />
 							<Route path="/admin" element={<AdminPage />} />
+							<Route path="/board/write" element={<BoardWritePage />} />
+							<Route path="/board/edit/:id" element={<BoardEditPage />} />
+							<Route path="/board/detail/:id" element={<BoardDetailPage />} />
 						</Routes>
 					</main>
 				</div>
