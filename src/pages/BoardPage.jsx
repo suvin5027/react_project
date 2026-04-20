@@ -9,6 +9,8 @@ function BoardPage() {
 	const [postList, setPostList] = useState(() => JSON.parse(localStorage.getItem('myBoardPosts') || '[]'));
 	const [searchKeyword, setSearchKeyword] = useState('');
 	const [searchType, setSearchType] = useState('all');
+	const [appliedKeyword, setAppliedKeyword] = useState('');
+	const [appliedType, setAppliedType] = useState('all');
 
 	// 삭제
 	const handleDeletePost = (id) => {
@@ -18,12 +20,17 @@ function BoardPage() {
 		localStorage.setItem('myBoardPosts', JSON.stringify(updated));
 	};
 
-	// 검색 필터
+	const handleSearch = () => {
+		setAppliedKeyword(searchKeyword);
+		setAppliedType(searchType);
+	};
+
+	// 검색 필터 (버튼 클릭 시 적용된 값 기준)
 	const filteredPosts = postList.filter(post => {
-		const keyword = searchKeyword.toLowerCase();
+		const keyword = appliedKeyword.toLowerCase();
 		const plainContent = post.content.replace(/<[^>]*>/g, '');
-		if (searchType === 'writer') return post.writer.toLowerCase().includes(keyword);
-		if (searchType === 'title_content') return post.title.toLowerCase().includes(keyword) || plainContent.toLowerCase().includes(keyword);
+		if (appliedType === 'writer') return post.writer.toLowerCase().includes(keyword);
+		if (appliedType === 'title_content') return post.title.toLowerCase().includes(keyword) || plainContent.toLowerCase().includes(keyword);
 		return post.title.toLowerCase().includes(keyword) || plainContent.toLowerCase().includes(keyword) || post.writer.toLowerCase().includes(keyword);
 	});
 
@@ -40,12 +47,22 @@ function BoardPage() {
 						<option value="title_content">제목+내용</option>
 						<option value="writer">작성자</option>
 					</select>
-					<input type="text" className="board_search_input" placeholder="검색어를 입력하세요." value={searchKeyword} onChange={(e) => setSearchKeyword(e.target.value)} />
+					<input
+						type="text"
+						className="board_search_input"
+						placeholder="검색어를 입력하세요."
+						value={searchKeyword}
+						onChange={(e) => setSearchKeyword(e.target.value)}
+						onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+					/>
+					<button type="button" className="board_search_btn" onClick={handleSearch}>검색</button>
 				</div>
-				{currentUser && (
-					<button type="button" className="btn_write" onClick={() => navigate('/board/write')}>글쓰기</button>
-				)}
 			</div>
+			{currentUser && (
+				<div className="board_write_row">
+					<button type="button" className="btn_write" onClick={() => navigate('/board/write')}>글쓰기</button>
+				</div>
+			)}
 
 			<ul className="post_list">
 				{filteredPosts.length === 0 ? (

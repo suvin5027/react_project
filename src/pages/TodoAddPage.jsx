@@ -42,8 +42,8 @@ function TodoAddPage() {
 					autoFocus
 				/>
 				<div className="todo_form_btn_wrap">
-					<button type="button" className="btn_cancel" onClick={() => navigate('/todo')}>취소</button>
 					<button type="submit" className="btn_submit">추가</button>
+					<button type="button" className="btn_cancel" onClick={() => navigate('/todo')}>취소</button>
 				</div>
 			</form>
 		</div>

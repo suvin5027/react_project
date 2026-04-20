@@ -159,6 +159,19 @@
 				background: $color-bg-input;
 				color: $color-white;
 			}
+
+			.board_search_btn {
+				padding: 8px 16px;
+				background: $color-btn-search;
+				color: $color-white;
+				border: none;
+				border-radius: $border-radius-base;
+				cursor: pointer;
+				white-space: nowrap;
+				transition: 0.2s;
+
+				&:hover { opacity: 0.85; }
+			}
 		}
 
 		.board_write_btn {
@@ -173,6 +186,13 @@
 
 			&:hover { opacity: 0.85; }
 		}
+	}
+
+	// 글쓰기 버튼 행
+	.board_write_row {
+		display: flex;
+		justify-content: flex-end;
+		margin-bottom: 4px;
 	}
 
 	// 비로그인 안내

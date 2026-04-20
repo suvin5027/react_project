@@ -29,10 +29,19 @@ function TodoPage() {
 		setTodoList(todoList.filter(item => item.id !== id));
 	};
 
+	const getNow = () => {
+		const now = new Date();
+		return `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+	};
+
 	const handleToggleTodo = (id) => {
-		setTodoList(todoList.map(item =>
-			item.id === id ? { ...item, done: !item.done } : item
-		));
+		setTodoList(todoList.map(item => {
+			if (item.id !== id) return item;
+			const toggled = !item.done;
+			return toggled
+				? { ...item, done: true, completedAt: getNow() }
+				: { ...item, done: false, completedAt: undefined };
+		}));
 	};
 
 	const totalCount = todoList.length;
@@ -79,12 +88,13 @@ function TodoPage() {
 				)}
 				{filteredList.map(item => (
 					<li key={item.id} className={item.done ? 'done' : ''}>
-						<label>
-							<input type="checkbox" checked={item.done} onChange={() => handleToggleTodo(item.id)} />
-							<span>{item.text}</span>
-						</label>
+						<input type="checkbox" checked={item.done} onChange={() => handleToggleTodo(item.id)} disabled={item.done} />
+						<span>{item.text}</span>
 						<div className="todo_item_right">
-							{item.createdAt && <span className="date_text">{item.createdAt}</span>}
+							<div className="todo_dates">
+								{item.createdAt && <span className="date_text">등록: {item.createdAt}</span>}
+								{item.completedAt && <span className="date_text date_done">완료: {item.completedAt}</span>}
+							</div>
 							<div className="btn_wrap">
 								<button type="button" className="btn_edit" onClick={() => navigate(`/todo/edit/${item.id}`)}>수정</button>
 								<button type="button" className="btn_del" onClick={() => handleDeleteTodo(item.id)}>삭제</button>

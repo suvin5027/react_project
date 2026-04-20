@@ -27,13 +27,22 @@ function TodoEditPage() {
 		);
 	}
 
+	const getNow = () => {
+		const now = new Date();
+		return `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+	};
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		if (text.trim() === '') return;
 
-		const updated = savedList.map(item =>
-			item.id === Number(id) ? { ...item, text: text.trim(), done } : item
-		);
+		const updated = savedList.map(item => {
+			if (item.id !== Number(id)) return item;
+			const completedAt = done
+				? (item.completedAt ?? getNow())
+				: undefined;
+			return { ...item, text: text.trim(), done, completedAt };
+		});
 		localStorage.setItem(storageKey, JSON.stringify(updated));
 		navigate('/todo');
 	};
@@ -54,8 +63,8 @@ function TodoEditPage() {
 					완료 표시
 				</label>
 				<div className="todo_form_btn_wrap">
-					<button type="button" className="btn_cancel" onClick={() => navigate('/todo')}>취소</button>
 					<button type="submit" className="btn_submit">수정</button>
+					<button type="button" className="btn_cancel" onClick={() => navigate('/todo')}>취소</button>
 				</div>
 			</form>
 		</div>
