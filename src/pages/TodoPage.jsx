@@ -19,6 +19,10 @@ function TodoPage() {
 	});
 
 	const [activeTab, setActiveTab] = useState('ALL');
+	const [searchKeyword, setSearchKeyword] = useState('');
+	const [appliedKeyword, setAppliedKeyword] = useState('');
+
+	const handleSearch = () => setAppliedKeyword(searchKeyword);
 
 	useEffect(() => {
 		if (!currentUser) return;
@@ -54,6 +58,7 @@ function TodoPage() {
 			if (activeTab === 'DONE') return item.done;
 			return true;
 		})
+		.filter(item => appliedKeyword === '' || item.text.toLowerCase().includes(appliedKeyword.toLowerCase()))
 		.sort((a, b) => {
 			if (activeTab === 'ALL') {
 				if (a.done !== b.done) return a.done ? -1 : 1;
@@ -73,12 +78,25 @@ function TodoPage() {
 				<p><span>남은 할 일:</span> {remainingCount}개</p>
 			</div>
 
-			<div className="todo_top">
-				<div className="todo_tabs">
-					<button className={activeTab === 'ALL' ? '_on' : ''} onClick={() => setActiveTab('ALL')}>전체</button>
-					<button className={activeTab === 'TODO' ? '_on' : ''} onClick={() => setActiveTab('TODO')}>할 일</button>
-					<button className={activeTab === 'DONE' ? '_on' : ''} onClick={() => setActiveTab('DONE')}>완료</button>
-				</div>
+			<div className="todo_tabs">
+				<button className={activeTab === 'ALL' ? '_on' : ''} onClick={() => setActiveTab('ALL')}>전체</button>
+				<button className={activeTab === 'TODO' ? '_on' : ''} onClick={() => setActiveTab('TODO')}>할 일</button>
+				<button className={activeTab === 'DONE' ? '_on' : ''} onClick={() => setActiveTab('DONE')}>완료</button>
+			</div>
+
+			<div className="todo_search_row">
+				<input
+					type="text"
+					className="todo_search_input"
+					placeholder="검색어를 입력하세요."
+					value={searchKeyword}
+					onChange={(e) => setSearchKeyword(e.target.value)}
+					onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+				/>
+				<button type="button" className="board_search_btn" onClick={handleSearch}>검색</button>
+			</div>
+
+			<div className="todo_write_row">
 				<button type="button" className="btn_write" onClick={() => navigate('/todo/add')}>+ 추가</button>
 			</div>
 
@@ -89,7 +107,7 @@ function TodoPage() {
 				{filteredList.map(item => (
 					<li key={item.id} className={item.done ? 'done' : ''}>
 						<input type="checkbox" checked={item.done} onChange={() => handleToggleTodo(item.id)} disabled={item.done} />
-						<span>{item.text}</span>
+						<span className="todo_text">{item.text}</span>
 						<div className="todo_item_right">
 							<div className="todo_dates">
 								{item.createdAt && <span className="date_text">등록: {item.createdAt}</span>}

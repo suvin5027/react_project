@@ -31,7 +31,7 @@ function BoardDetailPage() {
 	return (
 		<div className="board_detail_container">
 			<div className="board_detail_header">
-				<span className="board_detail_category">{post.category ?? '일반'}</span>
+				<span className={`board_detail_category _cat_${{ '공지사항': 'notice', '질문': 'question', '자유': 'free' }[post.category] ?? 'general'}`}>{post.category ?? '일반'}</span>
 				<h2 className="board_detail_title">{post.category === '공지사항' && '📌 '}{post.title}</h2>
 				<div className="board_detail_meta">
 					<span>{post.writer}</span>

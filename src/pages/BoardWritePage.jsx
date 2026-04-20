@@ -10,7 +10,7 @@ function BoardWritePage() {
 	const navigate = useNavigate();
 
 	const [title, setTitle] = useState('');
-	const [category, setCategory] = useState('일반');
+	const [category, setCategory] = useState('자유');
 	const titleRef = useRef(null);
 
 	const editor = useEditor({

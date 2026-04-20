@@ -28,37 +28,54 @@
 }
 
 // ============================================================
-// 탭 + 추가 버튼 상단 영역
-// ============================================================
-.todo_top {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	margin-bottom: 10px;
-}
-
-// ============================================================
 // 탭 메뉴 (전체 / 할 일 / 완료)
 // ============================================================
 .todo_tabs {
 	display: flex;
-	gap: 10px;
+	gap: 8px;
+	margin-bottom: 10px;
 
 	button {
-		padding: 8px 16px;
-		border: 1px solid $color-tab;
-		background: $color-tab;
+		padding: 6px 14px;
+		border: 1px solid $color-border;
 		border-radius: $border-radius-pill;
+		background: none;
+		color: $color-text-muted;
 		cursor: pointer;
-		transition: 0.3s;
+		font-size: 0.85rem;
+		transition: 0.2s;
 
-		&._on, &:hover, &:focus {
-			border: 1px solid $color-tab;
-			background-color: $color-white;
+		&:hover, &._on {
+			border-color: $color-tab;
 			color: $color-tab;
 			font-weight: bold;
 		}
 	}
+}
+
+// ============================================================
+// 검색 + 추가 버튼 영역
+// ============================================================
+.todo_search_row {
+	display: flex;
+	gap: 6px;
+	margin-bottom: 6px;
+
+	.todo_search_input {
+		flex: 1;
+		padding: 8px 10px;
+		border: 1px solid $color-border-input;
+		border-radius: $border-radius-base;
+		background: $color-bg-input;
+		color: $color-white;
+		font-family: inherit;
+	}
+}
+
+.todo_write_row {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 4px;
 }
 
 // ============================================================
@@ -93,7 +110,7 @@
 			flex: 1;
 		}
 
-		&.done label span {
+		&.done .todo_text {
 			text-decoration: line-through;
 			color: $color-text-muted;
 		}
