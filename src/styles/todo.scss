@@ -8,62 +8,33 @@
 	padding: 20px;
 
 	h1 {
-		margin-bottom: 30px;
+		margin-bottom: 20px;
 		font-size: $font-size-title;
 		color: $color-primary;
 		text-align: center;
 	}
+}
 
-	.todo_list {
-		max-height: 570px;
-		overflow-y: auto;
+// ============================================================
+// 통계 표시
+// ============================================================
+.todo_stats {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 16px;
 
-		li {
-			padding: 10px 0;
-			border-bottom: 1px solid $color-border;
+	p { margin: 0; }
+}
 
-			&.done {
-				text-decoration: line-through;
-				color: $color-text-muted;
-
-				button {
-					text-decoration: none;
-				}
-			}
-		}
-	}
-
-	// 입력창 영역
-	.input_box {
-		margin-top: 20px;
-		display: flex;
-		gap: 10px;
-
-		form {
-			display: flex;
-			width: 100%;
-			gap: 10px;
-		}
-
-		input {
-			flex: 1;
-			padding: 8px;
-			border-radius: $border-radius-base;
-			border: 1px solid $color-border-input;
-			background: $color-bg-input;
-			color: $color-white;
-		}
-
-		button {
-			padding: 8px 16px;
-			background: $color-primary;
-			border: none;
-			border-radius: $border-radius-base;
-			color: $color-btn-primary-text;
-			font-weight: bold;
-			cursor: pointer;
-		}
-	}
+// ============================================================
+// 탭 + 추가 버튼 상단 영역
+// ============================================================
+.todo_top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 10px;
 }
 
 // ============================================================
@@ -71,9 +42,7 @@
 // ============================================================
 .todo_tabs {
 	display: flex;
-	justify-content: center;
 	gap: 10px;
-	margin: 20px 0px;
 
 	button {
 		padding: 8px 16px;
@@ -93,55 +62,95 @@
 }
 
 // ============================================================
-// 통계 표시 (전체 / 완료 / 남은 할 일 개수)
-// ============================================================
-.todo_stats {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-
-	p {
-		margin: 0;
-	}
-}
-
-// ============================================================
-// 할 일 목록 아이템
+// 할 일 목록
 // ============================================================
 .todo_list {
+	max-height: 570px;
+	overflow-y: auto;
+	margin-top: 10px;
+
+	.todo_list_empty {
+		text-align: center;
+		color: $color-text-muted;
+		padding: 20px 0;
+		list-style: none;
+	}
+
 	li {
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		margin-bottom: 10px;
+		padding: 12px 0;
+		border-bottom: 1px solid $color-border;
 
 		label {
 			display: flex;
 			align-items: center;
 			gap: 10px;
 			cursor: pointer;
-			flex-grow: 1;
+			flex: 1;
 		}
 
-		&.done span {
+		&.done label span {
 			text-decoration: line-through;
 			color: $color-text-muted;
 		}
 
-		.done-toggle {
-			cursor: pointer;
-		}
+		.todo_item_right {
+			display: flex;
+			align-items: center;
+			gap: 10px;
 
-		// 수정/삭제 아이콘 버튼
-		.delete_btn, .edit_btn {
-			background: none;
-			border: none;
-			cursor: pointer;
-			font-size: $font-size-icon-btn;
-
-			&:hover {
-				transform: scale(1.2);
+			.date_text {
+				font-size: $font-size-date;
+				color: $color-text-muted;
+				white-space: nowrap;
 			}
 		}
+	}
+}
+
+// ============================================================
+// 추가 / 수정 페이지
+// ============================================================
+.todo_form_page {
+	width: 100%;
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 40px 20px;
+
+	.todo_form_title {
+		font-size: 1.3rem;
+		margin: 0 0 16px;
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.todo_input {
+		padding: 10px;
+		border: 1px solid $color-border-input;
+		border-radius: $border-radius-base;
+		background: $color-bg-input;
+		color: $color-white;
+		font-family: inherit;
+		font-size: 1rem;
+		width: 100%;
+	}
+
+	.todo_done_label {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		cursor: pointer;
+	}
+
+	.todo_form_btn_wrap {
+		display: flex;
+		justify-content: flex-end;
+		gap: 8px;
 	}
 }

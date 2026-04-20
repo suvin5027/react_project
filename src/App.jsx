@@ -3,6 +3,8 @@ import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import './App.scss';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import TodoPage from './pages/TodoPage';
+import TodoAddPage from './pages/TodoAddPage';
+import TodoEditPage from './pages/TodoEditPage';
 import BoardPage from './pages/BoardPage';
 import LoginPage from './pages/LoginPage';
 import AdminPage from './pages/AdminPage';
@@ -40,6 +42,8 @@ function App() {
 					<main>
 						<Routes>
 							<Route path="/todo" element={<TodoPage />} />
+							<Route path="/todo/add" element={<TodoAddPage />} />
+							<Route path="/todo/edit/:id" element={<TodoEditPage />} />
 							<Route path="/board" element={<BoardPage />} />
 							<Route path="/login" element={<LoginPage />} />
 							<Route path="/admin" element={<AdminPage />} />
