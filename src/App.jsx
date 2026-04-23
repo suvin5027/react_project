@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import TodoPage from './pages/TodoPage';
 import TodoAddPage from './pages/TodoAddPage';
 import TodoEditPage from './pages/TodoEditPage';
+import TodoDetailPage from './pages/TodoDetailPage';
 import BoardPage from './pages/BoardPage';
 import LoginPage from './pages/LoginPage';
 import AdminPage from './pages/AdminPage';
@@ -44,6 +45,7 @@ function App() {
 							<Route path="/todo" element={<TodoPage />} />
 							<Route path="/todo/add" element={<TodoAddPage />} />
 							<Route path="/todo/edit/:id" element={<TodoEditPage />} />
+							<Route path="/todo/detail/:id" element={<TodoDetailPage />} />
 							<Route path="/board" element={<BoardPage />} />
 							<Route path="/login" element={<LoginPage />} />
 							<Route path="/admin" element={<AdminPage />} />

@@ -61,7 +61,6 @@ input[type="checkbox"]:disabled {
 .date_text {
 	font-size: $font-size-date;
 	color: $color-text-date;
-	margin-left: 8px;
 	white-space: nowrap; // 날짜가 줄바꿈되지 않도록
 }
 
