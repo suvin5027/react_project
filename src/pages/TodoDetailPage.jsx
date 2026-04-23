@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { getColorObj } from '../utils/todoColorUtils';
 
 function TodoDetailPage() {
-	const { id } = useParams();
+	const { id } = useParams(); // URL에서 할 일 id 추출
 	const { currentUser } = useAuth();
 	const navigate = useNavigate();
 
@@ -26,8 +26,10 @@ function TodoDetailPage() {
 		);
 	}
 
+	// 프리셋 + 커스텀 컬러 중 현재 todo의 color id에 맞는 색상 객체 반환
 	const colorObj = getColorObj(currentUser.username, todo.color);
 
+	// 마감일 상태 반환 — 기한 초과면 'overdue', 오늘이면 'today'
 	const getDueDateStatus = () => {
 		if (!todo.dueDate || todo.done) return null;
 		const today = new Date().toISOString().slice(0, 10);
@@ -47,8 +49,10 @@ function TodoDetailPage() {
 
 	return (
 		<div className="todo_detail_container">
+			{/* 헤더 — 컬러 칩, 완료 뱃지, 제목/내용/태그 */}
 			<div className="todo_detail_header">
 				<div className="todo_detail_status_row">
+					{/* 흰색(기본값)이면 칩 숨김 */}
 					{colorObj && colorObj.id !== 'white' && (
 						<span className="todo_detail_color_chip" style={{ backgroundColor: colorObj.color }} />
 					)}
@@ -59,6 +63,7 @@ function TodoDetailPage() {
 				<div className="todo_detail_info_list">
 					<div className="todo_detail_info_row">
 						<span className="todo_detail_info_label">제목</span>
+						{/* 완료된 항목은 취소선(_done_text) 적용 */}
 						<span className={`todo_detail_info_value _title${todo.done ? ' _done_text' : ''}`}>{todo.text}</span>
 					</div>
 					{todo.description && (
@@ -80,6 +85,7 @@ function TodoDetailPage() {
 				</div>
 			</div>
 
+			{/* 날짜 정보 — 등록일, 완료일, 시작일, 마감일 */}
 			<div className="todo_detail_body">
 				<div className="todo_detail_info_list">
 					<div className="todo_detail_info_row">
@@ -101,6 +107,7 @@ function TodoDetailPage() {
 					{todo.dueDate && (
 						<div className="todo_detail_info_row">
 							<span className="todo_detail_info_label">마감일</span>
+							{/* dueDateStatus가 있으면 _overdue 또는 _today 클래스 추가 */}
 							<span className={`todo_detail_info_value${dueDateStatus ? ` _${dueDateStatus}` : ''}`}>
 								{todo.dueDate}
 								{dueDateStatus === 'overdue' && ' (기한 초과)'}

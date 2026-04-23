@@ -7,12 +7,15 @@ function TodoPage() {
 	const { currentUser } = useAuth();
 	const navigate = useNavigate();
 
+	// 로그인 안 된 상태면 로그인 페이지로 이동
 	useEffect(() => {
 		if (!currentUser) navigate('/login');
 	}, [currentUser]);
 
+	// 유저별로 다른 키를 써서 할 일 목록을 분리 저장
 	const storageKey = `myTodoList_${currentUser?.username}`;
 
+	// localStorage에서 초기값 불러오기 (함수로 넘기면 최초 1회만 실행됨)
 	const [todoList, setTodoList] = useState(() => {
 		if (!currentUser) return [];
 		const saved = localStorage.getItem(storageKey);
@@ -21,15 +24,18 @@ function TodoPage() {
 
 	const [activeTab, setActiveTab] = useState('ALL');
 	const [searchKeyword, setSearchKeyword] = useState('');
+	// appliedKeyword: 실제로 적용된 검색어 (버튼 클릭/Enter 시에만 반영)
 	const [appliedKeyword, setAppliedKeyword] = useState('');
 
 	const handleSearch = () => setAppliedKeyword(searchKeyword);
 
+	// todoList가 바뀔 때마다 localStorage에 자동 저장
 	useEffect(() => {
 		if (!currentUser) return;
 		localStorage.setItem(storageKey, JSON.stringify(todoList));
 	}, [todoList]);
 
+	// 마감일 상태 반환 — 기한 초과면 'overdue', 오늘이면 'today', 나머지는 null
 	const getDueDateStatus = (dueDate, done) => {
 		if (!dueDate || done) return null;
 		const today = new Date().toISOString().slice(0, 10);
@@ -42,11 +48,13 @@ function TodoPage() {
 		setTodoList(todoList.filter(item => item.id !== id));
 	};
 
+	// 현재 시각을 "YYYY-MM-DD HH:mm" 형식으로 반환
 	const getNow = () => {
 		const now = new Date();
 		return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 	};
 
+	// 완료 토글 — 완료 처리 시 completedAt 기록, 해제 시 제거
 	const handleToggleTodo = (id) => {
 		setTodoList(todoList.map(item => {
 			if (item.id !== id) return item;
@@ -61,6 +69,7 @@ function TodoPage() {
 	const doneCount = todoList.filter(item => item?.done).length;
 	const remainingCount = totalCount - doneCount;
 
+	// 탭 필터 → 검색 필터 → 정렬 순서로 체인 처리
 	const filteredList = todoList
 		.filter(item => {
 			if (activeTab === 'TODO') return !item.done;
@@ -69,6 +78,7 @@ function TodoPage() {
 		})
 		.filter(item => appliedKeyword === '' || item.text.toLowerCase().includes(appliedKeyword.toLowerCase()))
 		.sort((a, b) => {
+			// 전체 탭에서는 완료 항목을 위로 정렬, 나머지는 등록 순
 			if (activeTab === 'ALL') {
 				if (a.done !== b.done) return a.done ? -1 : 1;
 			}
@@ -87,6 +97,7 @@ function TodoPage() {
 				<p><span>남은 할 일:</span> {remainingCount}개</p>
 			</div>
 
+			{/* 탭 — 현재 선택된 탭에 _on 클래스 적용 */}
 			<div className="todo_tabs">
 				<button className={activeTab === 'ALL' ? '_on' : ''} onClick={() => setActiveTab('ALL')}>전체</button>
 				<button className={activeTab === 'TODO' ? '_on' : ''} onClick={() => setActiveTab('TODO')}>할 일</button>
@@ -96,7 +107,7 @@ function TodoPage() {
 			<div className="todo_search_row">
 				<input
 					type="text"
-					className="todo_search_input"
+					className="board_search_input"
 					placeholder="검색어를 입력하세요."
 					value={searchKeyword}
 					onChange={(e) => setSearchKeyword(e.target.value)}
@@ -117,10 +128,13 @@ function TodoPage() {
 					<li
 						key={item.id}
 						className={item.done ? 'done' : ''}
+						// 컬러 라벨이 없으면 transparent로 border 색상 없애기
 						style={{ borderLeft: `4px solid ${getColorObj(currentUser.username, item.color)?.color ?? 'transparent'}` }}
 					>
+						{/* 완료된 항목은 체크박스 비활성화 */}
 						<input type="checkbox" checked={item.done} onChange={() => handleToggleTodo(item.id)} disabled={item.done} />
 						<div className="todo_main">
+							{/* 제목 클릭 시 상세 페이지로 이동 */}
 							<span className="todo_text" onClick={() => navigate(`/todo/detail/${item.id}`)}>{item.text}</span>
 							{item.tags?.length > 0 && (
 								<div className="todo_tag_list">
@@ -129,6 +143,7 @@ function TodoPage() {
 							)}
 							<div className="todo_dates">
 								<div className="todo_dates_record">
+									{/* 완료된 항목은 완료일, 미완료는 등록일 표시 */}
 									{item.done && item.completedAt
 										? <span className="date_text date_done">완료: {item.completedAt}</span>
 										: <span className="date_text">등록: {item.createdAt}</span>

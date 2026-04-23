@@ -25,10 +25,10 @@
 
 .btn_detail {
 	background: none;
-	color: $color-text-muted;
-	border-color: $color-border;
+	color: var(--color-text-muted);
+	border-color: var(--color-border);
 
-	&:hover { color: $color-white; border-color: $color-white; }
+	&:hover { color: var(--color-text); border-color: var(--color-border-input); }
 }
 
 .btn_edit {
@@ -70,8 +70,8 @@
 
 .btn_cancel {
 	padding: 10px 16px;
-	background: $color-border;
-	color: $color-white;
+	background: var(--color-border);
+	color: var(--color-text);
 	border: none;
 	border-radius: $border-radius-base;
 	cursor: pointer;

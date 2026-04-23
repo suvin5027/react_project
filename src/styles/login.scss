@@ -19,20 +19,20 @@
 		// 탭 (로그인 / 회원가입)
 		.login_tabs {
 			display: flex;
-			border-bottom: 1px solid $color-border;
+			border-bottom: 1px solid var(--color-border);
 
 			button {
 				flex: 1;
 				padding: 10px;
 				background: none;
 				border: none;
-				color: $color-text-muted;
+				color: var(--color-text-muted);
 				font-size: 1rem;
 				cursor: pointer;
 				transition: 0.2s;
 
 				&._on {
-					color: $color-white;
+					color: var(--color-text);
 					font-weight: bold;
 					border-bottom: 2px solid $color-tab;
 				}
@@ -47,10 +47,10 @@
 
 		.login_input {
 			padding: 10px;
-			border: 1px solid $color-border-input;
+			border: 1px solid var(--color-border-input);
 			border-radius: $border-radius-base;
-			background: $color-bg-input;
-			color: $color-white;
+			background: var(--color-bg-input);
+			color: var(--color-text);
 			font-family: inherit;
 			font-size: 0.95rem;
 		}
@@ -65,9 +65,7 @@
 			cursor: pointer;
 			transition: 0.2s;
 
-			&:hover {
-				opacity: 0.85;
-			}
+			&:hover { opacity: 0.85; }
 		}
 	}
 }
@@ -81,22 +79,22 @@
 
 	.nav_username {
 		font-size: 0.9rem;
-		color: $color-text-muted;
+		color: var(--color-text-muted);
 	}
 
 	.nav_logout_btn {
 		padding: 4px 12px;
 		background: none;
-		border: 1px solid $color-border;
+		border: 1px solid var(--color-border);
 		border-radius: $border-radius-base;
-		color: $color-text-muted;
+		color: var(--color-text-muted);
 		font-size: 0.85rem;
 		cursor: pointer;
 		transition: 0.2s;
 
 		&:hover {
-			color: $color-white;
-			border-color: $color-white;
+			color: var(--color-text);
+			border-color: var(--color-border-input);
 		}
 	}
 }

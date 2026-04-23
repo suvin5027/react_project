@@ -7,12 +7,13 @@ import TodoTagSelector from '../components/TodoTagSelector';
 function TodoEditPage() {
 	const { currentUser } = useAuth();
 	const navigate = useNavigate();
-	const { id } = useParams();
+	const { id } = useParams(); // URL에서 할 일 id 추출
 
 	const storageKey = `myTodoList_${currentUser?.username}`;
 	const savedList = JSON.parse(localStorage.getItem(storageKey) || '[]');
 	const todo = savedList.find(item => item.id === Number(id));
 
+	// 기존 값으로 폼 초기화 — 없으면 빈값 또는 기본값
 	const [text, setText] = useState(todo?.text ?? '');
 	const [description, setDescription] = useState(todo?.description ?? '');
 	const [tags, setTags] = useState(todo?.tags ?? []);
@@ -34,6 +35,7 @@ function TodoEditPage() {
 		);
 	}
 
+	// 현재 시각을 "YYYY-MM-DD HH:mm" 형식으로 반환
 	const getNow = () => {
 		const now = new Date();
 		return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
@@ -49,12 +51,14 @@ function TodoEditPage() {
 
 		const updated = savedList.map(item => {
 			if (item.id !== Number(id)) return item;
+			// 완료 처리 시 completedAt 기록, 이미 있으면 유지 / 완료 해제 시 제거
 			const completedAt = done ? (item.completedAt ?? getNow()) : undefined;
 			return {
 				...item,
 				text: text.trim(),
 				done,
 				completedAt,
+				// 값이 있으면 저장, 없으면 해당 키 자체를 undefined로 제거
 				...(color ? { color } : { color: undefined }),
 				...(startDate ? { startDate } : { startDate: undefined }),
 				...(dueDate ? { dueDate } : { dueDate: undefined }),
@@ -98,7 +102,7 @@ function TodoEditPage() {
 					완료 표시
 				</label>
 				<div className="todo_edit_dates">
-					{todo.createdAt && <span className="todo_completed_at">등록일: {todo.createdAt}</span>}응
+					{todo.createdAt && <span className="todo_completed_at">등록일: {todo.createdAt}</span>}
 					{todo.completedAt && <span className="todo_completed_at _done">완료일: {todo.completedAt}</span>}
 				</div>
 				<div className="todo_form_btn_wrap">

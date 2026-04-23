@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TODO_COLORS } from '../constants/todoColors';
 
+// username별로 분리된 커스텀 컬러를 localStorage에 저장/불러옴
 function TodoColorSelector({ username, selectedColor, onChange }) {
 	const storageKey = `myTodoColors_${username}`;
 
@@ -10,10 +11,11 @@ function TodoColorSelector({ username, selectedColor, onChange }) {
 	const [showPopup, setShowPopup] = useState(false);
 	const [pickerColor, setPickerColor] = useState('#4a90e2');
 
+	// 커스텀 컬러 추가 — 최대 10개, 중복 색상 불가
 	const handleAddCustom = () => {
 		if (customColors.length >= 10) { alert('커스텀 컬러는 최대 10개까지 추가할 수 있습니다.'); return; }
 		if (customColors.find(c => c.color === pickerColor)) return;
-		const id = `custom_${Date.now()}`;
+		const id = `custom_${Date.now()}`; // 고유 id로 타임스탬프 사용
 		const newColor = { id, color: pickerColor };
 		const updated = [...customColors, newColor];
 		localStorage.setItem(storageKey, JSON.stringify(updated));
@@ -22,6 +24,7 @@ function TodoColorSelector({ username, selectedColor, onChange }) {
 		setShowPopup(false);
 	};
 
+	// 커스텀 컬러 삭제 — 현재 선택된 컬러면 흰색으로 초기화
 	const handleDeleteCustom = (id) => {
 		const updated = customColors.filter(c => c.id !== id);
 		localStorage.setItem(storageKey, JSON.stringify(updated));
@@ -31,7 +34,7 @@ function TodoColorSelector({ username, selectedColor, onChange }) {
 
 	return (
 		<div className="todo_color_section">
-			{/* 프리셋 컬러 */}
+			{/* 프리셋 컬러 목록 */}
 			<div className="todo_color_row">
 				<span className="todo_date_label">컬러 라벨</span>
 				<div className="todo_color_swatches">
@@ -47,7 +50,7 @@ function TodoColorSelector({ username, selectedColor, onChange }) {
 				</div>
 			</div>
 
-			{/* 커스텀 컬러 */}
+			{/* 사용자가 추가한 커스텀 컬러 목록 + 추가 버튼 */}
 			<div className="todo_color_row">
 				<span className="todo_date_label">커스텀 라벨</span>
 				<div className="todo_color_swatches">
@@ -59,6 +62,7 @@ function TodoColorSelector({ username, selectedColor, onChange }) {
 								style={{ backgroundColor: c.color }}
 								onClick={() => onChange(c.id)}
 							/>
+							{/* hover 시 나타나는 X 삭제 버튼 */}
 							<button
 								type="button"
 								className="todo_swatch_del"
@@ -67,6 +71,7 @@ function TodoColorSelector({ username, selectedColor, onChange }) {
 						</span>
 					))}
 
+					{/* + 버튼 클릭 시 컬러 피커 팝업 토글 */}
 					<div className="todo_swatch_add_wrap">
 						<button
 							type="button"

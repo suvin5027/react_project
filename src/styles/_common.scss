@@ -1,16 +1,48 @@
 @use 'variables' as *;
 
 // ============================================================
-// 베이스 — 전역 기본 스타일 (index.css 이전)
+// 테마 CSS 변수
+// ============================================================
+[data-theme="dark"] {
+	--color-bg: #242424;
+	--color-bg-nav: #1e1e1e;
+	--color-bg-input: #333;
+	--color-bg-hover: #2e2e2e;
+	--color-bg-row-hover: rgba(255, 255, 255, 0.05);
+	--color-bg-card: #2a2a2a;
+	--color-text: rgba(255, 255, 255, 0.87);
+	--color-text-muted: #888;
+	--color-text-date: #999;
+	--color-border: #444;
+	--color-border-input: #555;
+	color-scheme: dark;
+}
+
+[data-theme="light"] {
+	--color-bg: #f7f8fa;
+	--color-bg-nav: #ffffff;
+	--color-bg-input: #ffffff;
+	--color-bg-hover: #f0f0f0;
+	--color-bg-row-hover: rgba(0, 0, 0, 0.03);
+	--color-bg-card: #ffffff;
+	--color-text: #1a1a2e;
+	--color-text-muted: #999;
+	--color-text-date: #bbb;
+	--color-border: #e0e0e0;
+	--color-border-input: #d0d0d0;
+	color-scheme: light;
+}
+
+// ============================================================
+// 베이스 — 전역 기본 스타일
 // ============================================================
 
 :root {
 	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 	line-height: 1.5;
 	font-weight: 400;
-	color-scheme: light dark;
-	color: rgba(255, 255, 255, 0.87);
-	background-color: #242424;
+	color: var(--color-text);
+	background-color: var(--color-bg);
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -37,10 +69,10 @@ ul {
 }
 
 // ============================================================
-// 공통 스타일 — 전체 페이지에서 공유되는 기본 스타일
+// 공통 스타일
 // ============================================================
 
-.App{
+.App {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -57,11 +89,10 @@ input[type="checkbox"]:disabled {
 	opacity: 0.6;
 }
 
-// 날짜 텍스트
 .date_text {
 	font-size: $font-size-date;
-	color: $color-text-date;
-	white-space: nowrap; // 날짜가 줄바꿈되지 않도록
+	color: var(--color-text-date);
+	white-space: nowrap;
 }
 
 .button_group {
@@ -69,7 +100,17 @@ input[type="checkbox"]:disabled {
 	align-items: center;
 }
 
+// 페이지 공통 타이틀
+.title {
+	margin-bottom: 20px;
+	font-size: $font-size-title;
+	color: var(--color-text);
+	text-align: center;
+}
+
+// ============================================================
 // 상단 네비게이션 바
+// ============================================================
 .nav_menu {
 	display: flex;
 	align-items: center;
@@ -77,21 +118,21 @@ input[type="checkbox"]:disabled {
 	padding: 0 24px;
 	width: 100%;
 	height: 52px;
-	background: #1e1e1e;
-	border-bottom: 1px solid $color-border;
+	background: var(--color-bg-nav);
+	border-bottom: 1px solid var(--color-border);
 	box-sizing: border-box;
 
 	a {
 		padding: 6px 16px;
 		border-radius: $border-radius-base;
-		color: $color-text-muted;
+		color: var(--color-text-muted);
 		text-decoration: none;
 		font-size: 0.95rem;
 		transition: 0.2s;
 
 		&:hover {
-			color: $color-white;
-			background: #2e2e2e;
+			color: var(--color-text);
+			background: var(--color-bg-hover);
 		}
 
 		&.active {
@@ -100,4 +141,28 @@ input[type="checkbox"]:disabled {
 			background: $color-tab;
 		}
 	}
+}
+
+// 테마 토글 버튼
+.nav_theme_btns {
+	display: flex;
+	gap: 0;
+	margin-right: 6px;
+	border: 1px solid var(--color-border);
+	border-radius: $border-radius-pill;
+	overflow: hidden;
+}
+
+.nav_theme_btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 0.9rem;
+	padding: 3px 8px;
+	opacity: 0.4;
+	transition: 0.2s;
+	line-height: 1;
+
+	&:hover { opacity: 0.75; background: var(--color-bg-hover); }
+	&._on { opacity: 1; background: var(--color-bg-hover); }
 }

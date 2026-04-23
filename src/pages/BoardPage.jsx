@@ -50,7 +50,7 @@ function BoardPage() {
 
 	return (
 		<div className="board_container">
-			<h1 className="board_title">게시판</h1>
+			<h1 className="title">게시판</h1>
 
 			<div className="board_top">
 				<div className="board_search">

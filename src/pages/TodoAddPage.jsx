@@ -7,7 +7,8 @@ import TodoTagSelector from '../components/TodoTagSelector';
 function TodoAddPage() {
 	const { currentUser } = useAuth();
 	const navigate = useNavigate();
-	const inputRef = useRef(null);
+	const inputRef = useRef(null); // 유효성 실패 시 제목 입력창에 포커스 돌려주기 위한 ref
+
 	const [inputValue, setInputValue] = useState('');
 	const [description, setDescription] = useState('');
 	const [tags, setTags] = useState([]);
@@ -16,6 +17,7 @@ function TodoAddPage() {
 	const [startDate, setStartDate] = useState('');
 	const [dueDate, setDueDate] = useState('');
 
+	// 시작/마감 체크박스 — 켜면 오늘 날짜로 초기화, 끄면 날짜 초기화
 	const handleShowDates = (checked) => {
 		setShowDates(checked);
 		setStartDate(checked ? new Date().toISOString().slice(0, 10) : '');
@@ -40,11 +42,13 @@ function TodoAddPage() {
 
 		const storageKey = `myTodoList_${currentUser.username}`;
 		const savedList = JSON.parse(localStorage.getItem(storageKey) || '[]');
+		// 기존 id 중 최댓값 + 1로 새 id 생성
 		const nextId = savedList.reduce((max, item) => Math.max(max, item.id), 0) + 1;
 
 		const now = new Date();
 		const createdAt = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
+		// 값이 있을 때만 해당 필드를 포함 (없으면 키 자체를 생략)
 		const newTodo = {
 			id: nextId,
 			text: inputValue.trim(),
@@ -97,6 +101,7 @@ function TodoAddPage() {
 						<input type="date" className="todo_input todo_date_input" value={dueDate} onChange={(e) => {
 								const val = e.target.value;
 								setDueDate(val);
+								// 마감일이 시작일보다 이르면 시작일 초기화
 								if (val && startDate && val < startDate) setStartDate('');
 							}} />
 					</div>

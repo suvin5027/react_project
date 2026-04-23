@@ -7,12 +7,6 @@
 	width: 100%;
 	padding: 20px;
 
-	h1 {
-		margin-bottom: 20px;
-		font-size: $font-size-title;
-		color: $color-primary;
-		text-align: center;
-	}
 }
 
 // ============================================================
@@ -37,10 +31,10 @@
 
 	button {
 		padding: 6px 14px;
-		border: 1px solid $color-border;
+		border: 1px solid var(--color-border);
 		border-radius: $border-radius-pill;
 		background: none;
-		color: $color-text-muted;
+		color: var(--color-text-muted);
 		cursor: pointer;
 		font-size: 0.85rem;
 		transition: 0.2s;
@@ -60,16 +54,6 @@
 	display: flex;
 	gap: 6px;
 	margin-bottom: 6px;
-
-	.todo_search_input {
-		flex: 1;
-		padding: 8px 10px;
-		border: 1px solid $color-border-input;
-		border-radius: $border-radius-base;
-		background: $color-bg-input;
-		color: $color-white;
-		font-family: inherit;
-	}
 }
 
 .todo_write_row {
@@ -88,7 +72,7 @@
 
 	.todo_list_empty {
 		text-align: center;
-		color: $color-text-muted;
+		color: var(--color-text-muted);
 		padding: 20px 0;
 		list-style: none;
 	}
@@ -99,7 +83,7 @@
 		align-items: center;
 		gap: 5px;
 		padding: 12px 0;
-		border-bottom: 1px solid $color-border;
+		border-bottom: 1px solid var(--color-border);
 
 		input[type="checkbox"] {
 			cursor: pointer;
@@ -110,7 +94,7 @@
 
 		&.done .todo_text {
 			text-decoration: line-through;
-			color: $color-text-muted;
+			color: var(--color-text-muted);
 		}
 
 		.todo_main {
@@ -129,18 +113,18 @@
 		}
 
 		.todo_tag_list {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 4px;
-			}
+			display: flex;
+			flex-wrap: wrap;
+			gap: 4px;
+		}
 
-			.todo_tag_chip_sm {
-				font-size: 0.72rem;
-				color: $color-tab;
-				background: rgba(74, 144, 226, 0.12);
-				border-radius: $border-radius-pill;
-				padding: 1px 8px;
-			}
+		.todo_tag_chip_sm {
+			font-size: 0.72rem;
+			color: $color-tab;
+			background: rgba(74, 144, 226, 0.12);
+			border-radius: $border-radius-pill;
+			padding: 1px 8px;
+		}
 
 		.todo_dates {
 			display: flex;
@@ -153,13 +137,13 @@
 
 			.todo_dates_plan._divider {
 				padding-left: 12px;
-				border-left: 1px solid $color-border;
+				border-left: 1px solid var(--color-border);
 			}
 		}
 
 		.date_text {
 			font-size: $font-size-date;
-			color: $color-text-muted;
+			color: var(--color-text-muted);
 			white-space: nowrap;
 
 			&.date_done { color: $color-primary; }
@@ -191,15 +175,15 @@
 
 	.todo_input {
 		padding: 10px;
-		border: 1px solid $color-border-input;
+		border: 1px solid var(--color-border-input);
 		border-radius: $border-radius-base;
-		background: $color-bg-input;
-		color: $color-white;
+		background: var(--color-bg-input);
+		color: var(--color-text);
 		font-family: inherit;
 		font-size: 1rem;
 	}
 
-	.todo_color_section{
+	.todo_color_section {
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
@@ -228,7 +212,7 @@
 		transition: 0.15s;
 
 		&._on, &:hover {
-			border-color: $color-white;
+			border-color: var(--color-text);
 			transform: scale(1.2);
 		}
 	}
@@ -269,14 +253,14 @@
 		width: 22px;
 		height: 22px;
 		border-radius: 50%;
-		border: 2px solid $color-white;
+		border: 2px solid var(--color-text);
 		background: none;
 		cursor: pointer;
 		transition: 0.15s;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		color: $color-white;
+		color: var(--color-text);
 		font-size: 0.85rem;
 		line-height: 1;
 
@@ -290,33 +274,33 @@
 		top: calc(100% + 8px);
 		left: 0;
 		z-index: 100;
-		background: #2a2a2a;
-		border: 1px solid $color-border;
+		background: var(--color-bg-card);
+		border: 1px solid var(--color-border);
 		border-radius: 8px;
 		padding: 12px;
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
 		width: 200px;
-		box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 
 		.todo_color_popup_header {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
 			font-size: 0.8rem;
-			color: $color-text-muted;
+			color: var(--color-text-muted);
 
 			.todo_color_popup_close {
 				background: none;
 				border: none;
-				color: $color-text-muted;
+				color: var(--color-text-muted);
 				font-size: 1rem;
 				cursor: pointer;
 				padding: 0 2px;
 				line-height: 1;
 
-				&:hover { color: $color-white; }
+				&:hover { color: var(--color-text); }
 			}
 		}
 
@@ -346,7 +330,7 @@
 			width: 28px;
 			height: 28px;
 			border-radius: 50%;
-			border: 2px solid $color-border;
+			border: 2px solid var(--color-border);
 			flex-shrink: 0;
 		}
 	}
@@ -367,7 +351,7 @@
 	.todo_tag_chip {
 		display: inline-flex;
 		align-items: stretch;
-		border: 1px solid $color-border;
+		border: 1px solid var(--color-border);
 		border-radius: $border-radius-pill;
 		overflow: hidden;
 
@@ -381,7 +365,7 @@
 			align-items: center;
 			padding: 3px 8px;
 			background: none;
-			color: $color-text-muted;
+			color: var(--color-text-muted);
 			font-size: 0.8rem;
 			cursor: pointer;
 			border: none;
@@ -392,7 +376,7 @@
 			align-items: center;
 			padding: 0 7px 0 2px;
 			background: none;
-			color: $color-text-muted;
+			color: var(--color-text-muted);
 			font-size: 0.9rem;
 			line-height: 1;
 			cursor: pointer;
@@ -404,10 +388,10 @@
 
 	.todo_tag_add_trigger {
 		padding: 3px 10px;
-		border: 1px dashed $color-border;
+		border: 1px dashed var(--color-border);
 		border-radius: $border-radius-pill;
 		background: none;
-		color: $color-text-muted;
+		color: var(--color-text-muted);
 		font-size: 0.8rem;
 		cursor: pointer;
 
@@ -454,15 +438,14 @@
 	.todo_date_label {
 		min-width: 70px;
 		font-size: 0.85rem;
-		color: $color-text-muted;
+		color: var(--color-text-muted);
 		white-space: nowrap;
 	}
 
 	.todo_date_input {
 		width: auto;
-		color-scheme: dark;
+		color-scheme: inherit;
 	}
-
 
 	.todo_done_label {
 		display: flex;
@@ -478,7 +461,7 @@
 
 	.todo_completed_at {
 		font-size: 0.85rem;
-		color: $color-text-muted;
+		color: var(--color-text-muted);
 
 		&._done { color: $color-primary; }
 	}
@@ -500,7 +483,7 @@
 	padding: 40px 20px;
 
 	.todo_detail_not_found {
-		color: $color-text-muted;
+		color: var(--color-text-muted);
 		margin-bottom: 16px;
 	}
 
@@ -508,7 +491,7 @@
 		display: flex;
 		align-items: center;
 		gap: 8px;
-		border-bottom: 1px solid $color-border;
+		border-bottom: 1px solid var(--color-border);
 		padding-bottom: 14px;
 		margin-bottom: 20px;
 	}
@@ -525,8 +508,8 @@
 		font-size: 0.75rem;
 		padding: 2px 10px;
 		border-radius: $border-radius-pill;
-		border: 1px solid $color-text-muted;
-		color: $color-text-muted;
+		border: 1px solid var(--color-text-muted);
+		color: var(--color-text-muted);
 
 		&._done {
 			border-color: $color-primary;
@@ -551,14 +534,14 @@
 		font-size: 0.9rem;
 
 		.todo_detail_info_label {
-			color: $color-text-muted;
+			color: var(--color-text-muted);
 			white-space: nowrap;
 			min-width: 44px;
 		}
 
 		.todo_detail_info_value {
 			&._title    { font-size: 1.1rem; font-weight: 500; }
-			&._done_text { text-decoration: line-through; color: $color-text-muted; }
+			&._done_text { text-decoration: line-through; color: var(--color-text-muted); }
 			&._done    { color: $color-primary; }
 			&._today   { color: #faad14; font-weight: bold; }
 			&._overdue { color: $color-btn-del-text; font-weight: bold; }
